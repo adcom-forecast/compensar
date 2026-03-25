@@ -835,12 +835,16 @@ async function refreshData(){
 }
 
 // ── CSV PARSER ────────────────────────────────────────
-function parseCSVRows(txt){
+// Columnas fijas según estructura del Sheets de Compensar:
+// Anual GENERAL: col3=Nivel, col4=Programa, col5=Modalidad, col7=Presupuesto,
+//                col8=CPL, col9=Leads, col12=%CONV(decimal), col13=Matriculas, col14=MetaDigital
+// Medios:        col3=Nivel, col5=Modalidad, col7=Presupuesto, col8=Medio
+function csvRows(txt){
   return txt.trim().split('\n').map(r=>{
     const c=[];let cur='',q=false;
-    for(let ch of r){
+    for(const ch of r){
       if(ch==='"'){q=!q}
-      else if(ch===','&&!q){c.push(cur.trim());cur=''}
+      else if(ch===','&&!q){c.push(cur.trim());cur='';}
       else cur+=ch;
     }
     c.push(cur.trim());
@@ -849,83 +853,52 @@ function parseCSVRows(txt){
 }
 
 function parseAnual(txt){
-  const rows = parseCSVRows(txt);
-  if(rows.length < 2) return [];
-  // Detectar fila de header buscando "Periodo" o "Modalidad"
-  let hdrIdx = 0;
-  for(let i=0;i<Math.min(5,rows.length);i++){
-    const row = rows[i].join(',').toLowerCase();
-    if(row.includes('periodo') || row.includes('modalidad') || row.includes('programa')){
-      hdrIdx = i; break;
-    }
-  }
-  const hdr = rows[hdrIdx].map(h=>h.toLowerCase().trim());
-  // Mapear columnas por nombre de header
-  const iNivel    = hdr.findIndex(h=>h.includes('nivel'));
-  const iPrograma = hdr.findIndex(h=>h.includes('programa'));
-  const iModal    = hdr.findIndex(h=>h.includes('modalidad'));
-  const iPpto     = hdr.findIndex(h=>h.includes('presupuesto'));
-  const iCPL      = hdr.findIndex(h=>h.includes('cpl'));
-  const iLeads    = hdr.findIndex(h=>h.includes('leads') && !h.includes('meta') && !h.includes('%'));
-  const iConv     = hdr.findIndex(h=>h.includes('conv') || h.includes('%conv'));
-  const iMat      = hdr.findIndex(h=>h.includes('matricula') && !h.includes('meta'));
-  const iMeta     = hdr.findIndex(h=>h.includes('meta') && (h.includes('digital') || h.includes('matricula')));
-  console.log('Anual headers:', hdr);
-  console.log('Col indices: nivel='+iNivel+' prog='+iPrograma+' mod='+iModal+' ppto='+iPpto+' cpl='+iCPL+' leads='+iLeads+' conv='+iConv+' mat='+iMat+' meta='+iMeta);
+  const rows=csvRows(txt);
   const out=[];
-  for(let i=hdrIdx+1;i<rows.length;i++){
+  // Saltar header (fila 0) e iterar desde fila 1
+  for(let i=1;i<rows.length;i++){
     const r=rows[i];
-    if(!r||r.length<5)continue;
-    const mo=(iModal>=0?r[iModal]||'':'').trim();
-    if(!['Presencial','Virtual'].includes(mo))continue;
-    const ppto=parseFloat((r[iPpto]||'0').replace(/[$,\s]/g,''))||0;
-    if(ppto<=0)continue;
+    if(!r||r.length<10) continue;
+    const mo=(r[5]||'').trim();
+    if(!['Presencial','Virtual'].includes(mo)) continue;
+    const ppto=parseFloat(r[7])||0;
+    if(ppto<=0) continue;
+    const convRaw=parseFloat(r[12])||0;
+    // %CONV viene como decimal (0.023 = 2.3%) — NO dividir entre 100
     out.push({
-      nivel:   (iNivel>=0?r[iNivel]||'':'').trim(),
-      programa:(iPrograma>=0?r[iPrograma]||'':'').trim(),
+      nivel:    (r[3]||'').trim(),
+      programa: (r[4]||'').trim(),
       modalidad: mo,
       presupuesto: ppto,
-      cpl:  parseFloat((r[iCPL]||'0').replace(/[$,\s]/g,''))||0,
-      leads:parseFloat((r[iLeads]||'0').replace(/[$,\s]/g,''))||0,
-      conv: parseFloat((r[iConv]||'0').replace(/[%$,\s]/g,''))/100||0,
-      matriculas:  parseFloat((r[iMat]||'0').replace(/[$,\s]/g,''))||0,
-      meta_digital:parseFloat((r[iMeta]||'0').replace(/[$,\s]/g,''))||0,
+      cpl:         parseFloat(r[8])||0,
+      leads:       parseFloat(r[9])||0,
+      conv:        convRaw,           // ya es decimal 0..1
+      matriculas:  parseFloat(r[13])||0,
+      meta_digital:parseFloat(r[14])||0,
     });
   }
-  console.log('parseAnual result:', out.length, 'rows');
+  console.log('[parseAnual] rows parsed:', out.length, '| sample CPL:', out[0]?.cpl, '| sample conv:', out[0]?.conv);
   return out;
 }
 
 function parseMedios(txt){
-  const rows = parseCSVRows(txt);
-  if(rows.length < 2) return [];
-  let hdrIdx = 0;
-  for(let i=0;i<Math.min(5,rows.length);i++){
-    const row = rows[i].join(',').toLowerCase();
-    if(row.includes('medio') || row.includes('presupuesto')){hdrIdx=i;break;}
-  }
-  const hdr = rows[hdrIdx].map(h=>h.toLowerCase().trim());
-  const iNivel  = hdr.findIndex(h=>h.includes('nivel'));
-  const iModal  = hdr.findIndex(h=>h.includes('modalidad'));
-  const iPpto   = hdr.findIndex(h=>h.includes('presupuesto'));
-  const iMedio  = hdr.findIndex(h=>h==='medio'||h.includes('medio'));
-  console.log('Medios headers:', hdr);
-  console.log('Col indices: nivel='+iNivel+' mod='+iModal+' ppto='+iPpto+' medio='+iMedio);
+  const rows=csvRows(txt);
   const out=[];
-  for(let i=hdrIdx+1;i<rows.length;i++){
-    const r=rows[i];if(!r||r.length<4)continue;
-    const medio=(iMedio>=0?r[iMedio]||'':'').trim();
-    if(!medio)continue;
-    const ppto=parseFloat((r[iPpto]||'0').replace(/[$,\s]/g,''))||0;
-    if(ppto<=0)continue;
+  for(let i=1;i<rows.length;i++){
+    const r=rows[i];
+    if(!r||r.length<9) continue;
+    const medio=(r[8]||'').trim();
+    if(!medio) continue;
+    const ppto=parseFloat(r[7])||0;
+    if(ppto<=0) continue;
     out.push({
-      nivel:(iNivel>=0?r[iNivel]||'':'').trim(),
-      modalidad:(iModal>=0?r[iModal]||'':'').trim(),
-      presupuesto:ppto,
+      nivel:    (r[3]||'').trim(),
+      modalidad:(r[5]||'').trim(),
+      presupuesto: ppto,
       medio
     });
   }
-  console.log('parseMedios result:', out.length, 'rows');
+  console.log('[parseMedios] rows parsed:', out.length);
   return out;
 }
 
