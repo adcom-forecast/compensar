@@ -526,12 +526,20 @@ async function fetchCSV(gid) {
 }
 
 function csvRows(txt) {
-  return txt.trim().split('\n').map(row => {
-    const cols=[]; let cur='', q=false;
-    for(const ch of row){
-      if(ch==='"'){q=!q}
-      else if(ch===','&&!q){cols.push(cur.trim());cur='';}
-      else cur+=ch;
+  // Normalizar saltos de línea Windows/Mac/Unix
+  const lines = txt.replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim().split('\n');
+  return lines.map(row => {
+    const cols = [];
+    let cur = '', q = false, i = 0;
+    while(i < row.length) {
+      const ch = row[i];
+      if(ch === '"') {
+        // Comilla doble dentro de campo quoted → literal "
+        if(q && i+1 < row.length && row[i+1] === '"') { cur += '"'; i += 2; continue; }
+        q = !q; i++; continue;
+      }
+      if(ch === ',' && !q) { cols.push(cur.trim()); cur = ''; i++; continue; }
+      cur += ch; i++;
     }
     cols.push(cur.trim());
     return cols;
