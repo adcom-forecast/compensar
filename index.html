@@ -914,12 +914,27 @@ function sw(name,btn){
 // ── REFRESH ───────────────────────────────────────────
 // Usa el CSV público de Google Sheets (funciona desde HTTPS/GitHub Pages)
 // Desde file:// el navegador bloquea fetch por CORS — subir a GitHub Pages para que funcione
+// GIDs de cada hoja del Sheets de Compensar
+const GID_MAP = {
+  resumen:   '0',
+  anual:     '468145068',
+  medios:    '563213265',
+  metas:     '526918644',
+};
+
 async function fetchSheet(gid){
   const url = SHEET_BASE + '&gid=' + gid;
+  console.log('[fetchSheet] GET', url);
   const r = await fetch(url);
-  if(!r.ok) throw new Error('HTTP ' + r.status + ' al fetch gid=' + gid);
+  if(!r.ok) throw new Error('HTTP ' + r.status + ' al leer gid=' + gid);
   const txt = await r.text();
-  if(!txt || txt.trim().length < 10) throw new Error('Respuesta vacía del Sheets');
+  if(!txt || txt.trim().length < 10) throw new Error('Respuesta vacía gid=' + gid);
+  const trimmed = txt.trim();
+  // Si llega HTML → hoja no publicada individualmente como CSV
+  if(trimmed.startsWith('<!') || trimmed.startsWith('<html') || trimmed.startsWith('<HTML')){
+    throw new Error('HOJA_NO_PUBLICADA:' + gid);
+  }
+  console.log('[fetchSheet] gid='+gid+' ✓ chars='+txt.length+' | fila0:', txt.split('\n')[0].substring(0,100));
   return txt;
 }
 
@@ -928,27 +943,74 @@ async function refreshData(){
   const ri=document.getElementById('ri');
   btn.classList.add('loading'); ri.classList.add('spin');
   showToast('Conectando con Google Sheets…','info');
+
   try{
-    const [rA, rM] = await Promise.all([
-      fetchSheet(GID_ANUAL),
-      fetchSheet(GID_MEDIOS),
-    ]);
+    // Intentar fetch de ambas hojas
+    let rA, rM;
+    try{
+      rA = await fetchSheet(GID_ANUAL);
+    }catch(e){
+      if(e.message.startsWith('HOJA_NO_PUBLICADA')){
+        throw new Error(
+          'La hoja "Anual GENERAL" no está publicada como CSV. ' +
+          'En Sheets: Archivo → Compartir → Publicar en la web → ' +
+          'cambia "Todo el documento" a "Anual GENERAL" → formato CSV → Publicar.'
+        );
+      }
+      throw e;
+    }
+    try{
+      rM = await fetchSheet(GID_MEDIOS);
+    }catch(e){
+      if(e.message.startsWith('HOJA_NO_PUBLICADA')){
+        throw new Error(
+          'La hoja "Anual por medio FORMAL" no está publicada como CSV. ' +
+          'En Sheets: Archivo → Compartir → Publicar en la web → ' +
+          'selecciona "Anual por medio FORMAL" → CSV → Publicar.'
+        );
+      }
+      throw e;
+    }
+
+    // Log diagnóstico
+    const rowsA = csvRows(rA);
+    const rowsM = csvRows(rM);
+    console.log('=== ANUAL CSV ===', rowsA.length, 'filas');
+    console.log('Fila 0:', rowsA[0]);
+    console.log('Fila 1:', rowsA[1]);
+    console.log('=== MEDIOS CSV ===', rowsM.length, 'filas');
+    console.log('Fila 0:', rowsM[0]);
+
     const newDA = parseAnual(rA);
     const newDM = parseMedios(rM);
-    // Validar que parseo fue exitoso antes de reemplazar
-    if(newDA.length === 0) throw new Error('parseAnual retornó 0 filas — verificar estructura del Sheets');
-    if(newDM.length === 0) throw new Error('parseMedios retornó 0 filas — verificar estructura del Sheets');
+
+    if(newDA.length === 0){
+      const h0 = (rowsA[0]||[]).slice(0,6).join(' | ');
+      const h1 = (rowsA[1]||[]).slice(0,6).join(' | ');
+      throw new Error(
+        'Parser leyó 0 programas. Hoja: '+rowsA.length+' filas. '+
+        'Header: ['+h0+'] | Fila1: ['+h1+'] — '+
+        'Revisa que "Anual GENERAL" esté publicada individualmente.'
+      );
+    }
+    if(newDM.length === 0){
+      const h0 = (rowsM[0]||[]).slice(0,5).join(' | ');
+      throw new Error('Medios: 0 filas. Header: ['+h0+']');
+    }
+
     DA = newDA;
     DM = newDM;
     buildAll();
     const t = new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
-    set('fhoy','Actualizado: ' + t + ' (' + DA.length + ' programas, ' + DM.length + ' medios)');
-    showToast('✓ ' + DA.length + ' programas actualizados desde Sheets','ok');
+    set('fhoy','Actualizado: ' + t + ' · ' + DA.length + ' programas');
+    showToast('✓ ' + DA.length + ' programas · ' + DM.length + ' medios actualizados','ok');
+
   }catch(e){
-    console.error('refreshData error:', e);
-    showToast('⚠ Error: ' + e.message,'err');
+    console.error('[refreshData] ERROR:', e.message);
+    showToast('⚠ ' + e.message, 'err');
   }
-  btn.classList.remove('loading'); ri.classList.remove('spin');
+  btn.classList.remove('loading');
+  ri.classList.remove('spin');
 }
 
 // ── CSV PARSER ────────────────────────────────────────
@@ -972,50 +1034,94 @@ function csvRows(txt){
 function parseAnual(txt){
   const rows=csvRows(txt);
   const out=[];
-  // Saltar header (fila 0) e iterar desde fila 1
-  for(let i=1;i<rows.length;i++){
+  // ── Encontrar header dinámicamente buscando "Modalidad" en cualquier fila ──
+  let hdrRow = -1;
+  let iNivel=3, iPrograma=4, iModal=5, iPpto=7, iCPL=8, iLeads=9, iConv=12, iMat=13, iMeta=14;
+  for(let i=0;i<Math.min(10,rows.length);i++){
+    const joined = rows[i].join(',').toLowerCase();
+    if(joined.includes('modalidad') && joined.includes('presupuesto')){
+      hdrRow = i;
+      const h = rows[i].map(x=>x.toLowerCase().trim());
+      // Re-mapear por nombre exacto de columna
+      iNivel    = h.findIndex(x=>x==='nivel'||x.includes('nivel'));
+      iPrograma = h.findIndex(x=>x.includes('programa'));
+      iModal    = h.findIndex(x=>x==='modalidad'||x.includes('modalidad'));
+      iPpto     = h.findIndex(x=>x==='presupuesto');
+      iCPL      = h.findIndex(x=>x==='cpl');
+      iLeads    = h.findIndex(x=>x==='leads'&&!x.includes('meta')&&!x.includes('%')&&!x.includes('cumpl'));
+      iConv     = h.findIndex(x=>x==='%conv'||x==='conv');
+      iMat      = h.findIndex(x=>(x==='matriculas'||x.includes('matric'))&&!x.includes('meta'));
+      iMeta     = h.findIndex(x=>x==='meta digital'||x==='metadigital'||(x.includes('meta')&&x.includes('digital')));
+      // Fallback si alguno no se encontró
+      if(iNivel<0)iNivel=3; if(iPrograma<0)iPrograma=4; if(iModal<0)iModal=5;
+      if(iPpto<0)iPpto=7;   if(iCPL<0)iCPL=8;           if(iLeads<0)iLeads=9;
+      if(iConv<0)iConv=12;  if(iMat<0)iMat=13;           if(iMeta<0)iMeta=14;
+      console.log('[parseAnual] header en fila',i,'→ modal=col'+iModal,'ppto=col'+iPpto,'cpl=col'+iCPL,'leads=col'+iLeads,'conv=col'+iConv,'mat=col'+iMat,'meta=col'+iMeta);
+      break;
+    }
+  }
+  const start = hdrRow >= 0 ? hdrRow+1 : 1;
+  for(let i=start;i<rows.length;i++){
     const r=rows[i];
-    if(!r||r.length<10) continue;
-    const mo=(r[5]||'').trim();
+    if(!r||r.length<6) continue;
+    const mo=(r[iModal]||'').trim();
     if(!['Presencial','Virtual'].includes(mo)) continue;
-    const ppto=parseFloat(r[7])||0;
+    const ppto=parseFloat((r[iPpto]||'').replace(/[,$]/g,''))||0;
     if(ppto<=0) continue;
-    const convRaw=parseFloat(r[12])||0;
-    // %CONV viene como decimal (0.023 = 2.3%) — NO dividir entre 100
+    const convRaw=parseFloat((r[iConv]||'').replace(/[,$%]/g,''))||0;
+    // %CONV en el sheet es decimal (0.023 = 2.3%) — verificar si viene como % o decimal
+    const conv = convRaw > 1 ? convRaw/100 : convRaw;
     out.push({
-      nivel:    (r[3]||'').trim(),
-      programa: (r[4]||'').trim(),
-      modalidad: mo,
+      nivel:       (r[iNivel]||'').trim(),
+      programa:    (r[iPrograma]||'').trim(),
+      modalidad:   mo,
       presupuesto: ppto,
-      cpl:         parseFloat(r[8])||0,
-      leads:       parseFloat(r[9])||0,
-      conv:        convRaw,           // ya es decimal 0..1
-      matriculas:  parseFloat(r[13])||0,
-      meta_digital:parseFloat(r[14])||0,
+      cpl:         parseFloat((r[iCPL]||'').replace(/[,$]/g,''))||0,
+      leads:       parseFloat((r[iLeads]||'').replace(/[,$]/g,''))||0,
+      conv,
+      matriculas:  parseFloat((r[iMat]||'').replace(/[,$]/g,''))||0,
+      meta_digital:parseFloat((r[iMeta]||'').replace(/[,$]/g,''))||0,
     });
   }
-  console.log('[parseAnual] rows parsed:', out.length, '| sample CPL:', out[0]?.cpl, '| sample conv:', out[0]?.conv);
+  console.log('[parseAnual]',out.length,'filas OK | CPL[0]:',out[0]?.cpl,'conv[0]:',out[0]?.conv);
   return out;
 }
 
 function parseMedios(txt){
   const rows=csvRows(txt);
   const out=[];
-  for(let i=1;i<rows.length;i++){
+  let hdrRow=-1;
+  let iNivel=3,iModal=5,iPpto=7,iMedio=8;
+  for(let i=0;i<Math.min(10,rows.length);i++){
+    const joined=rows[i].join(',').toLowerCase();
+    if(joined.includes('medio')&&joined.includes('presupuesto')){
+      hdrRow=i;
+      const h=rows[i].map(x=>x.toLowerCase().trim());
+      iNivel=h.findIndex(x=>x==='nivel'||x.includes('nivel'));
+      iModal=h.findIndex(x=>x==='modalidad'||x.includes('modalidad'));
+      iPpto =h.findIndex(x=>x==='presupuesto');
+      iMedio=h.findIndex(x=>x==='medio');
+      if(iNivel<0)iNivel=3;if(iModal<0)iModal=5;if(iPpto<0)iPpto=7;if(iMedio<0)iMedio=8;
+      console.log('[parseMedios] header fila',i,'→ nivel=col'+iNivel,'mod=col'+iModal,'ppto=col'+iPpto,'medio=col'+iMedio);
+      break;
+    }
+  }
+  const start=hdrRow>=0?hdrRow+1:1;
+  for(let i=start;i<rows.length;i++){
     const r=rows[i];
-    if(!r||r.length<9) continue;
-    const medio=(r[8]||'').trim();
+    if(!r||r.length<6) continue;
+    const medio=(r[iMedio]||'').trim();
     if(!medio) continue;
-    const ppto=parseFloat(r[7])||0;
+    const ppto=parseFloat((r[iPpto]||'').replace(/[,$]/g,''))||0;
     if(ppto<=0) continue;
     out.push({
-      nivel:    (r[3]||'').trim(),
-      modalidad:(r[5]||'').trim(),
-      presupuesto: ppto,
+      nivel:    (r[iNivel]||'').trim(),
+      modalidad:(r[iModal]||'').trim(),
+      presupuesto:ppto,
       medio
     });
   }
-  console.log('[parseMedios] rows parsed:', out.length);
+  console.log('[parseMedios]',out.length,'filas OK');
   return out;
 }
 
