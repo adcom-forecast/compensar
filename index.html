@@ -954,37 +954,33 @@ async function refreshData(){
   showToast('Conectando con Google Sheets…','info');
 
   try{
-    // Fetch las 3 hojas en paralelo
-    const [rR, rA, rM] = await Promise.all([
-      fetchSheet(GID_RESUMEN),
+    // Fetch solo ANUAL + MEDIOS (igual que UAN — no dependemos del RESUMEN)
+    const [rA, rM] = await Promise.all([
       fetchSheet(GID_ANUAL),
       fetchSheet(GID_MEDIOS),
     ]);
 
-    // Parse schedule del RESUMEN (cols: 0=No, 1=Mes, 2=%, 3=Presupuesto, 4=Periodo)
-    const newSCH = parseResumen(rR);
-    const newDA  = parseAnual(rA);
-    const newDM  = parseMedios(rM);
+    const newDA = parseAnual(rA);
+    const newDM = parseMedios(rM);
 
-    // Validaciones
-    if(newSCH.length === 0) throw new Error('RESUMEN: no se encontraron filas de schedule');
-    if(newDA.length  === 0){
+    if(newDA.length === 0){
       const r0 = csvRows(rA);
       throw new Error('Anual GENERAL: 0 programas. Header: ['+(r0[0]||[]).slice(0,5).join('|')+']');
     }
-    if(newDM.length  === 0) throw new Error('Medios: 0 filas parseadas');
+    if(newDM.length === 0) throw new Error('Medios: 0 filas parseadas');
 
-    // Actualizar datos globales
-    SCH.length = 0;
-    newSCH.forEach(s => SCH.push(s));
+    // Recalcular leads_est en SCH con el nuevo CPL promedio
+    const avgCPL = newDA.reduce((a,r)=>a+r.cpl,0) / newDA.length || AVG_CPL_REF;
+    SCH.forEach(s => { s.leads_est = Math.round(s.presupuesto / avgCPL); });
+
     DA = newDA;
     DM = newDM;
 
     buildAll();
     const t = new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
-    set('fhoy','Actualizado: ' + t);
-    showToast('✓ ' + newDA.length + ' programas · ' + newSCH.length + ' meses · ' + t, 'ok');
-    console.log('[refresh] ✓', t, '| SCH:', newSCH.length, '| DA:', newDA.length, '| DM:', newDM.length);
+    set('fhoy','Actualizado: ' + t + ' · ' + DA.length + ' programas');
+    showToast('✓ ' + DA.length + ' programas · ' + DM.length + ' medios · ' + t, 'ok');
+    console.log('[refresh] ✓', t, '| DA:', DA.length, '| DM:', DM.length, '| avgCPL:', Math.round(avgCPL));
 
   }catch(e){
     console.error('[refreshData] ERROR:', e.message);
