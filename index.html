@@ -1002,7 +1002,7 @@ function parseResumen(txt){
   const rows = csvRows(txt);
   const out  = [];
 
-  // Etiquetas cortas para los meses
+  // Etiquetas de mes por año-mes
   const MES_LABELS = {
     '2026-01':'Ene-25','2025-01':'Ene-25',
     '2026-02':'Feb-26','2026-03':'Mar-26','2026-04':'Abr-26',
@@ -1012,68 +1012,66 @@ function parseResumen(txt){
     '2027-01':'Ene-27',
   };
 
-  // Mapeo de periodo
-  const PER_MAP = {
-    '2026-01-01':'2026-1', '2026-1':'2026-1',
-    'bis':'2026-1 BIS',
-    '2026-02-01':'2026-2', '2026-2':'2026-2',
-    '2026-2 bis':'2026-2 BIS',
-    '2027-01-01':'2027-1', '2027-1':'2027-1',
-  };
+  // Mapeo de string de periodo a etiqueta
+  function normPeriodo(perRaw, mesRaw){
+    const p = perRaw.toLowerCase().trim();
+    if(p === 'bis'){
+      const m = parseInt((mesRaw||'').substring(5,7)) || 0;
+      return m <= 3 ? '2026-1 BIS' : '2026-2 BIS';
+    }
+    if(p.startsWith('2026-01') || p === '2026-1') return '2026-1';
+    if(p.startsWith('2026-02') || p === '2026-2') return '2026-2';
+    if(p.startsWith('2027-01') || p === '2027-1') return '2027-1';
+    if(p.includes('2026-1 bis') || p.includes('2026-1bis')) return '2026-1 BIS';
+    if(p.includes('2026-2 bis') || p.includes('2026-2bis')) return '2026-2 BIS';
+    return '2026-2';
+  }
 
-  // Encontrar fila de header buscando "No" y "Mes" y "Presupuesto"
-  let dataStart = -1;
-  for(let i=0; i<Math.min(10,rows.length); i++){
+  // El RESUMEN tiene col0 vacía — datos en col1..col5
+  // Estructura: col1=No, col2=Mes(fecha), col3=%, col4=Presupuesto, col5=Periodo
+  // Buscamos la fila header (tiene "No","Mes","Presupuesto","Periodo")
+  let dataStart = 3; // fallback
+  for(let i = 0; i < Math.min(8, rows.length); i++){
     const joined = rows[i].join(',').toLowerCase();
-    if(joined.includes('presupuesto') && joined.includes('periodo')){
+    if(joined.includes('presupuesto') && joined.includes('periodo') && joined.includes('mes')){
       dataStart = i + 1;
+      console.log('[parseResumen] header en fila', i, '→ datos desde', dataStart);
       break;
     }
   }
-  if(dataStart < 0) dataStart = 3; // fallback: empieza en fila 3
 
   for(let i = dataStart; i < rows.length; i++){
     const r = rows[i];
-    if(!r || r.length < 4) continue;
+    if(!r || r.length < 5) continue;
 
-    const noRaw   = (r[0]||'').trim();
-    const mesRaw  = (r[1]||'').trim();
-    const pctRaw  = (r[2]||'').trim();
-    const pptoRaw = (r[3]||'').trim();
-    const perRaw  = (r[4]||'').trim();
+    // col0 vacía → datos en col1..col5
+    const noRaw   = (r[1]||'').trim();
+    const mesRaw  = (r[2]||'').trim();
+    const pctRaw  = (r[3]||'').trim();
+    const pptoRaw = (r[4]||'').trim();
+    const perRaw  = (r[5]||'').trim();
 
-    // Saltear filas que no son datos de meses (sin número en col0)
     const no = parseFloat(noRaw);
-    if(isNaN(no) || no <= 0) break; // llegamos a las filas de totales
+    if(isNaN(no) || no <= 0) break; // fin de datos
 
-    const ppto = parseFloat(pptoRaw.replace(/[,$]/g,'')) || 0;
-    const pct  = parseFloat(pctRaw.replace(/[,%]/g,'')) || 0;
+    const ppto = parseFloat(pptoRaw.replace(/[,$ ]/g,'')) || 0;
     if(ppto <= 0) continue;
 
-    // Extraer año-mes de la fecha (viene como "2026-03-05" o "2026-03-05 00:00:00")
+    const pct = parseFloat(pctRaw.replace(/[,%$ ]/g,'')) || 0;
+    // pct puede venir como 0.089 (decimal) o 8.9 (porcentaje)
+    const pctNorm = pct > 1 ? pct / 100 : pct;
+
+    // Etiqueta del mes
     const mesKey = mesRaw.substring(0, 7); // "2026-03"
-    const label  = MES_LABELS[mesKey] || mesRaw.substring(0,7);
+    const label  = MES_LABELS[mesKey] || mesRaw.substring(0, 7);
 
-    // Normalizar periodo
-    const perLow = perRaw.toLowerCase().replace(/\s/g,'');
-    let periodo  = '2026-2'; // default
-    if(perLow === 'bis' || perLow.includes('bis')){
-      // Determinar si es 2026-1 BIS o 2026-2 BIS según el mes
-      const mesNum = parseInt(mesRaw.substring(5,7)) || 0;
-      periodo = mesNum <= 3 ? '2026-1 BIS' : '2026-2 BIS';
-    } else {
-      for(const [key, val] of Object.entries(PER_MAP)){
-        if(perRaw.startsWith(key) || perLow === key.toLowerCase()){
-          periodo = val;
-          break;
-        }
-      }
-    }
+    const periodo = normPeriodo(perRaw, mesRaw);
 
-    out.push({ no: Math.round(no), label, pct: pct > 1 ? pct/100 : pct, presupuesto: ppto, periodo });
+    out.push({ no: Math.round(no), label, pct: pctNorm, presupuesto: ppto, periodo });
   }
 
-  console.log('[parseResumen]', out.length, 'meses | total $'+out.reduce((a,s)=>a+s.presupuesto,0).toLocaleString());
+  console.log('[parseResumen]', out.length, 'meses OK | total $' +
+    out.reduce((a,s)=>a+s.presupuesto,0).toLocaleString('es-CO'));
   return out;
 }
 
