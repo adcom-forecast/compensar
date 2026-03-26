@@ -924,14 +924,21 @@ const GID_MAP = {
 };
 
 async function fetchSheet(gid){
-  const url = SHEET_BASE + '&gid=' + gid;
+  // Timestamp para romper caché del navegador Y de Google Sheets
+  const ts = Date.now();
+  const url = SHEET_BASE + '&gid=' + gid + '&t=' + ts;
   console.log('[fetchSheet] GET', url);
-  const r = await fetch(url);
+  const r = await fetch(url, {
+    cache: 'no-store',          // fuerza bypass de caché del browser
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+    }
+  });
   if(!r.ok) throw new Error('HTTP ' + r.status + ' al leer gid=' + gid);
   const txt = await r.text();
   if(!txt || txt.trim().length < 10) throw new Error('Respuesta vacía gid=' + gid);
   const trimmed = txt.trim();
-  // Si llega HTML → hoja no publicada individualmente como CSV
   if(trimmed.startsWith('<!') || trimmed.startsWith('<html') || trimmed.startsWith('<HTML')){
     throw new Error('HOJA_NO_PUBLICADA:' + gid);
   }
@@ -1004,7 +1011,10 @@ async function refreshData(){
     buildAll();
     const t = new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
     set('fhoy','Actualizado: ' + t + ' · ' + DA.length + ' programas');
-    showToast('✓ ' + DA.length + ' programas · ' + DM.length + ' medios actualizados','ok');
+    showToast('✓ ' + DA.length + ' programas actualizados · ' + t,'ok');
+    // Nota: Google Sheets puede tardar hasta 5 min en publicar cambios nuevos
+    console.log('[refresh] ✓ Completado a las', t, '| DA:', DA.length, '| DM:', DM.length);
+    console.log('[refresh] ⚠ Si los datos no cambian, espera ~5 min — Google cachea el CSV publicado.');
 
   }catch(e){
     console.error('[refreshData] ERROR:', e.message);
