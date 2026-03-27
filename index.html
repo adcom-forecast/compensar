@@ -164,7 +164,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <button class="tab" onclick="switchTab('mensual',this)">◷ Leads Mensuales</button>
 </div>
 <div class="container">
-  <div id="sp-main" class="spin-wrap"><div class="spinner"></div><p>Conectando con Google Sheets...</p></div>
+  <div id="sp-main" class="spin-wrap"><div class="spinner"></div><p id='spinMsg'>Conectando con Google Sheets...</p></div>
   <div id="panel-resumen" class="panel">
     <div class="g3">
       <div class="card"><div class="card-title"><div class="card-title-left">Presupuesto mensual</div><span class="sec-badge">Anual por mes</span></div><div style="position:relative;height:200px"><canvas id="cMesPres"></canvas></div></div>
@@ -244,7 +244,7 @@ function fmtCOP(n){
 }
 function fmtNum(n){return new Intl.NumberFormat('es-CO').format(Math.round(parseFloat(n)||0));}
 function parseNum(s){
-  if(!s)return 0;s=s.toString().trim().replace(/[$\s]/g,'');
+  if(!s)return 0;s=s.toString().trim().replace(/[$ ]/g,'');
   if(s==='#REF!'||s===''||s==='-')return 0;
   if(s.endsWith('%'))return parseFloat(s.replace('%','').replace(',','.'))||0;
   if(s.indexOf(',')>-1){var p=s.split(',');return parseFloat(p[0].replace(/\./g,'')+'.'+p[1])||0;}
@@ -273,7 +273,18 @@ function splitL(line){
   for(var i=0;i<line.length;i++){var ch=line[i];if(ch==='"'){q=!q;}else if(ch===','&&!q){r.push(c);c='';}else{c+=ch;}}
   r.push(c);return r;
 }
-function fetchCSV(url){return fetch(url).then(function(r){return r.text();}).then(parseCSV);}
+function fetchCSV(url){
+  return fetch(url+'&cachebust='+Date.now(),{
+    method:'GET',
+    headers:{'Cache-Control':'no-cache'}
+  }).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status+' para '+url);
+    return r.text();
+  }).then(function(text){
+    if(!text||text.length<10)throw new Error('Respuesta vacía');
+    return parseCSV(text);
+  });
+}
 function setSyncing(on){document.getElementById('syncDot').className='sync-dot'+(on?' spin':'');document.getElementById('syncBtn').disabled=on;}
 
 function setFilter(type,el){
@@ -299,11 +310,22 @@ function filteredMes(){
   return MES_DATA.filter(function(m){return FILTERS.periodo==='todos'||m.periodo===FILTERS.periodo;});
 }
 
+function setMsg(msg){var el=document.getElementById('spinMsg');if(el)el.textContent=msg;}
+
 function loadAll(){
   setSyncing(true);
   document.getElementById('sp-main').style.display='flex';
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
-  Promise.all([fetchCSV(URLS.general),fetchCSV(URLS.mes),fetchCSV(URLS.medio)]).then(function(res){
+
+  setMsg('Cargando Anual GENERAL...');
+  var p1=fetchCSV(URLS.general);
+  setMsg('Cargando Anual por mes...');
+  var p2=fetchCSV(URLS.mes);
+  setMsg('Cargando Anual por medio...');
+  var p3=fetchCSV(URLS.medio);
+
+  Promise.all([p1,p2,p3]).then(function(res){
+    setMsg('Procesando...');
     processLiveData(res[0],res[1],res[2]);
     liveLoaded=true;setSyncing(false);
     var now=new Date();
@@ -312,10 +334,10 @@ function loadAll(){
     document.getElementById('panel-resumen').classList.add('active');
     renderAll();
   }).catch(function(e){
-    console.error(e);setSyncing(false);
-    document.getElementById('sp-main').style.display='none';
-    document.getElementById('panel-resumen').classList.add('active');
-    liveLoaded=true;renderAll();
+    console.error('Error cargando Sheet:',e);
+    setMsg('Error: '+e.message);
+    setSyncing(false);
+    document.getElementById('sp-main').innerHTML='<div style="padding:2rem;text-align:center"><p style="color:#E8470A;font-weight:600;margin-bottom:1rem">No se pudo conectar al Google Sheet</p><p style="color:#666;font-size:13px;margin-bottom:1rem">'+e.message+'</p><button onclick="loadAll()" style="background:#E8470A;color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:13px">Reintentar</button></div>';
   });
 }
 
