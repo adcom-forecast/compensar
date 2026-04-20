@@ -28,7 +28,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .hero{background:var(--dark2);padding:1.25rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.08)}
 .hero h1{color:#fff;font-size:20px;font-weight:700;margin-bottom:3px}
 .hero p{color:rgba(255,255,255,.55);font-size:12px}
-.hero-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+.hero-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:1rem}
 .hkpi{background:rgba(255,255,255,.05);border-radius:8px;padding:12px 16px;border:1px solid rgba(255,255,255,.1)}
 .hkpi .lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
 .hkpi .val{font-size:22px;font-weight:700;color:#fff;line-height:1}
@@ -112,6 +112,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="hkpi"><div class="lbl">Leads estimados</div><div class="val" id="hL">—</div><div class="sub">Generación digital</div></div>
     <div class="hkpi yellow"><div class="lbl">Matrículas est.</div><div class="val" id="hM">—</div><div class="sub">Aporta pauta</div></div>
     <div class="hkpi"><div class="lbl">CPL promedio</div><div class="val" id="hCPL">—</div><div class="sub">Costo por lead</div></div>
+    <div class="hkpi"><div class="lbl">% Conv. promedio</div><div class="val" id="hConv">—</div><div class="sub">Lead → Matrícula</div></div>
   </div>
 </div>
 <div class="filters-bar">
@@ -496,6 +497,14 @@ function renderAll(){
   document.getElementById('hL').textContent=fmtNum(totL);
   document.getElementById('hM').textContent=fmtNum(totM);
   document.getElementById('hCPL').textContent=fmtCOP(cpl);
+
+  // % Conv promedio: weighted average pct_conv from filtered progs (weighted by leads)
+  var convNumerator=progs.reduce(function(s,p){return s+(p.pct_conv||0)*p.leads;},0);
+  var convDenominator=progs.reduce(function(s,p){return s+(p.pct_conv>0?p.leads:0);},0);
+  var avgConv=convDenominator>0?convNumerator/convDenominator:0;
+  // Fallback: if no pct_conv in data, calc from totM/totL
+  if(avgConv===0&&totL>0&&totM>0)avgConv=totM/totL;
+  document.getElementById('hConv').textContent=avgConv>0?(avgConv*100).toFixed(2)+'%':'—';
 
   Object.keys(CH).forEach(function(k){if(CH[k]){CH[k].destroy();delete CH[k];}});
   renderResumen(progs,mes,medios);
