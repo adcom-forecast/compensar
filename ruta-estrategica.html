@@ -1130,6 +1130,830 @@
     </div>
   </section>
 
+  <!--
+  =====================================================================
+  PROPUESTA: Cundinamarca Más Profesional — U.Compensar
+  ADCOM · Mayo–Junio 2026
+  =====================================================================
+  INSTRUCCIÓN DE INSERCIÓN:
+  Pegar este bloque DESPUÉS de la sección de Branding en la ruta
+  estratégica. Agregar los siguientes items al sidebar nav:
+
+  <div class="nav-section-label">Propuesta</div>
+  <a class="nav-item" href="#prop-objetivo">
+    <span class="nav-icon">...</span>
+    <span class="nav-label">CMP — Objetivo</span>
+  </a>
+  <a class="nav-item" href="#prop-ejes">
+    <span class="nav-icon">...</span>
+    <span class="nav-label">CMP — Ejes de Comunicación</span>
+  </a>
+  <a class="nav-item" href="#prop-canales">
+    <span class="nav-icon">...</span>
+    <span class="nav-label">CMP — Canales</span>
+  </a>
+  <a class="nav-item" href="#prop-flow">
+    <span class="nav-icon">...</span>
+    <span class="nav-label">CMP — Flow de Medios</span>
+  </a>
+  =====================================================================
+-->
+
+<style>
+  /* ── PROPUESTA-LOCAL STYLES (scoped con prefijo .prop-) ── */
+  .prop-divider {
+    height: 4px;
+    background: linear-gradient(90deg, var(--yellow) 0%, transparent 100%);
+    margin: 0 40px 0;
+    border-radius: 2px;
+  }
+
+  /* Banner de sección especial */
+  .prop-banner {
+    background: var(--black);
+    padding: 28px 40px 20px;
+    border-bottom: 1px solid rgba(255,192,0,.2);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .prop-banner-badge {
+    background: rgba(255,192,0,.12);
+    border: 1px solid rgba(255,192,0,.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    white-space: nowrap;
+  }
+  .prop-banner-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .prop-banner-title span { color: var(--yellow); }
+  .prop-banner-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,.45);
+    margin-top: 2px;
+  }
+
+  /* Ejes de comunicación */
+  .prop-ejes-wrap { display: flex; flex-direction: column; gap: 20px; }
+
+  .prop-eje-card {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+  }
+  .prop-eje-header {
+    padding: 22px 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .prop-eje-header-left { display: flex; align-items: flex-start; gap: 16px; }
+  .prop-eje-num {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1;
+    opacity: .08;
+    color: var(--white);
+    min-width: 60px;
+  }
+  .prop-eje-meta { flex: 1; }
+  .prop-eje-segment-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 6px;
+  }
+  .prop-eje-concept {
+    font-size: 12px;
+    color: rgba(255,255,255,.4);
+    margin-left: 8px;
+  }
+  .prop-eje-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .prop-eje-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,.6);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+  .prop-eje-tono {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,.35);
+    text-align: right;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .prop-eje-tono span {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .prop-eje-body {
+    background: var(--white);
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .prop-eje-item {
+    padding: 20px;
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+  }
+  .prop-eje-item-num {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: .12;
+  }
+  .prop-eje-item-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+  .prop-eje-item-text {
+    font-size: 12px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .prop-eje-item-copy {
+    font-size: 12px;
+    font-weight: 700;
+    border-left: 3px solid;
+    padding-left: 10px;
+    line-height: 1.5;
+    color: var(--black);
+    font-style: italic;
+  }
+
+  .prop-eje-canales {
+    padding: 14px 28px 20px;
+    background: var(--white);
+    border-top: 1px solid var(--gray-100);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .prop-eje-canal-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .prop-eje-canal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  /* Sección canales */
+  .prop-canal-block {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .prop-canal-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .prop-canal-stripe {
+    width: 5px;
+    height: 44px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .prop-canal-hname {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--black);
+  }
+  .prop-canal-obj {
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+  .prop-enfoques-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 0;
+  }
+  .prop-enfoque {
+    padding: 20px 24px;
+    border-right: 1px solid var(--gray-100);
+  }
+  .prop-enfoque:last-child { border-right: none; }
+  .prop-enfoque-num {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 6px;
+  }
+  .prop-enfoque-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+  .prop-enfoque-row { margin-bottom: 10px; }
+  .prop-enfoque-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 3px;
+  }
+  .prop-enfoque-value {
+    font-size: 12px;
+    color: var(--black);
+    line-height: 1.5;
+    background: var(--gray-50);
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--yellow);
+    font-style: italic;
+  }
+  .prop-enfoque-note {
+    font-size: 11px;
+    color: var(--gray-600);
+    line-height: 1.5;
+  }
+
+  /* Keywords */
+  .prop-keywords {
+    padding: 16px 24px 20px;
+    border-top: 1px solid var(--gray-100);
+    background: var(--gray-50);
+  }
+  .prop-keywords-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+  }
+  .prop-keywords-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .prop-kw {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    color: var(--black);
+    font-family: monospace;
+  }
+
+  /* Flow de medios */
+  .prop-flow-table-wrap {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  /* KPI cards del flow */
+  .prop-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .prop-kpi-mini {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .prop-kpi-mini-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--gray-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .prop-kpi-mini-icon svg { width: 20px; height: 20px; }
+  .prop-kpi-mini-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 4px;
+  }
+  .prop-kpi-mini-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--black);
+    line-height: 1;
+  }
+  .prop-kpi-mini-value.yellow { color: var(--yellow); }
+  .prop-kpi-mini-sub { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+  /* Nota de pie */
+  .prop-footnote {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-left: 4px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    font-size: 12px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════
+     BANNER SEPARADOR
+═══════════════════════════════════════════════════════════ -->
+<div class="prop-divider"></div>
+
+<div class="prop-banner">
+  <div class="prop-banner-badge">Propuesta de acción</div>
+  <div>
+    <div class="prop-banner-title">Cundinamarca <span>Más Profesional</span></div>
+    <div class="prop-banner-sub">Campaña digital de captación · Mayo – Junio 2026 · U.Compensar</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     01. OBJETIVO
+═══════════════════════════════════════════════════════════ -->
+<section id="prop-objetivo" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">Propuesta · 01</div>
+      <h2 class="section-title">¿Cuál es nuestro <span>objetivo?</span></h2>
+      <p class="section-subtitle">Diseñar y ejecutar una estrategia de comunicación digital integral que impulse la convocatoria del Fondo "Cundinamarca Más Profesional" en la U.Compensar.</p>
+    </div>
+  </div>
+
+  <div class="text-block">
+    Aumentar el conocimiento del programa entre jóvenes cundinamarqueses, favorecer la participación activa de aspirantes en municipios del departamento, y resaltar los beneficios económicos y sociales: <strong>financiación parcial o total de matrícula y subsidios para gastos de sostenimiento</strong>, vinculados a carreras acordes con las necesidades productivas de Cundinamarca. Posicionar a <strong>U.Compensar</strong> como la institución aliada del Fondo de la Gobernación.
+  </div>
+
+  <!-- Buyer persona -->
+  <div class="subsection-title" style="margin-top:32px">Buyer Persona — Hombres y mujeres soñadores que quieren ser profesionales</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Atributo</th>
+          <th>Perfil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Edad</td><td>19–24 años</td></tr>
+        <tr><td>Sexo</td><td>Hombres y mujeres (ligera predominancia femenina en educación superior)</td></tr>
+        <tr><td>Ubicación</td><td>Municipios de Cundinamarca fuera de Bogotá, con fácil acceso a la capital</td></tr>
+        <tr><td>NSE</td><td>Estratos 1, 2 y 3 · Sisben A y B · Zonas rurales del departamento</td></tr>
+        <tr><td>Estado civil</td><td>Soltera/o</td></tr>
+        <tr><td>Ocupación</td><td>Estudiante de último grado o egresado reciente; puede estar en empleos informales mientras decide cómo financiar su educación</td></tr>
+        <tr><td>Motivación</td><td>Ser profesional para mejorar su calidad de vida, apoyar a su familia y aportar a su región</td></tr>
+        <tr><td>Barrera principal</td><td>El costo de la matrícula y los gastos de sostenimiento durante la carrera</td></tr>
+        <tr><td>Canal de consumo</td><td>Instagram, TikTok, YouTube — alta actividad desde móvil</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Storytelling -->
+  <div style="background:var(--white);border:1px solid var(--gray-200);border-left:4px solid var(--yellow);border-radius:var(--radius-lg);padding:24px 28px;margin-top:4px">
+    <div class="subsection-title" style="margin-bottom:12px;font-size:13px;color:var(--gray-400)">Storytelling · Buyer Persona</div>
+    <p style="font-size:14px;color:var(--black);line-height:1.8;font-style:italic">
+      <strong>Laura</strong>, de 20 años, vive en un municipio de Cundinamarca y siempre soñó con ser profesional. Trabaja medio tiempo, pero sus ahorros no alcanzan para pagar una matrícula. Un día descubre en Instagram el programa <strong>"Cundinamarca Más Profesional"</strong> por medio de la U.Compensar: apoyo en matrícula y sostenimiento. Ahora Laura ve posible cumplir su sueño, crecer junto a su familia y aportar al desarrollo de su región.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     02. EJES DE COMUNICACIÓN
+═══════════════════════════════════════════════════════════ -->
+<section id="prop-ejes" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">Propuesta · 02</div>
+      <h2 class="section-title">Ejes de <span>Comunicación</span></h2>
+      <p class="section-subtitle">El corazón de la estrategia. Responden a la voz de marca de U.Compensar ("Hacer Para Saber") y se articulan con las barreras y motivaciones del buyer persona. Cada eje activa un plano emocional o racional distinto.</p>
+    </div>
+  </div>
+
+  <div class="prop-ejes-wrap">
+
+    <!-- EJE 01 -->
+    <div class="prop-eje-card">
+      <div class="prop-eje-header" style="background:#111">
+        <div class="prop-eje-header-left">
+          <div class="prop-eje-num">01</div>
+          <div class="prop-eje-meta">
+            <div>
+              <span class="prop-eje-segment-tag" style="background:rgba(255,192,0,.15);color:#FFC000;">Identidad Regional</span>
+              <span class="prop-eje-concept">"De Cundinamarca al mundo, sin perder tus raíces"</span>
+            </div>
+            <div class="prop-eje-name">De Cundinamarca al mundo, sin perder tus raíces</div>
+            <div class="prop-eje-desc">Ser profesional no significa abandonar tu región. Bogotá está cerca, y U.Compensar es el puente. El mensaje no es "quédate", sino "sal, crece y vuelve con más": estudiar en la capital es accesible, el programa lo financia, y el retorno al municipio es el propósito.</div>
+          </div>
+        </div>
+        <div class="prop-eje-tono">Tono<br><span style="color:#FFC000">Pertenencia</span><span style="color:#FFC000"> · Orgullo regional</span><br><span style="color:#FFC000">Proyección personal</span></div>
+      </div>
+
+      <div class="prop-eje-body">
+        <div class="prop-eje-item">
+          <div class="prop-eje-item-num" style="color:#FFC000">A</div>
+          <div class="prop-eje-item-title">Bogotá está más cerca de lo que crees</div>
+          <div class="prop-eje-item-text">Desmonta la barrera psicológica de la distancia. Estudiar en Bogotá no implica abandonar la familia ni el municipio. U.Compensar está en la capital y el programa lo pone al alcance.</div>
+          <div class="prop-eje-item-copy" style="border-color:#FFC000">"Bogotá está a la vuelta. Tu carrera, también."</div>
+        </div>
+        <div class="prop-eje-item">
+          <div class="prop-eje-item-num" style="color:#FFC000">B</div>
+          <div class="prop-eje-item-title">Cundinamarca te necesita de vuelta, profesional</div>
+          <div class="prop-eje-item-text">No es solo un beneficio individual: es una inversión de la Gobernación en el talento regional. El joven tiene un compromiso implícito con su departamento. Ese sentido de propósito y pertenencia es motivación real.</div>
+          <div class="prop-eje-item-copy" style="border-color:#FFC000">"La Gobernación invierte en ti. Cundinamarca espera lo mejor de ti."</div>
+        </div>
+        <div class="prop-eje-item">
+          <div class="prop-eje-item-num" style="color:#FFC000">C</div>
+          <div class="prop-eje-item-title">Sales a aprender, vuelves a transformar</div>
+          <div class="prop-eje-item-text">Alineado con "Hacer Para Saber". El aprendizaje práctico en Bogotá tiene un destino claro: aplicar ese conocimiento en las necesidades reales del departamento. El viaje formativo prepara al joven para impactar su región.</div>
+          <div class="prop-eje-item-copy" style="border-color:#FFC000">"Estudia en Bogotá. Aplica en Cundinamarca. Transforma tu región."</div>
+        </div>
+      </div>
+
+      <div class="prop-eje-canales">
+        <div class="prop-eje-canal-tag"><div class="prop-eje-canal-dot" style="background:#0866FF"></div>Meta Ads (Facebook)</div>
+        <div class="prop-eje-canal-tag"><div class="prop-eje-canal-dot" style="background:#010101"></div>TikTok Ads</div>
+        <div class="prop-eje-canal-tag"><div class="prop-eje-canal-dot" style="background:#4285F4"></div>Google Ads</div>
+      </div>
+    </div>
+
+    <!-- EJE 02 -->
+    <div class="prop-eje-card">
+      <div class="prop-eje-header" style="background:#111">
+        <div class="prop-eje-header-left">
+          <div class="prop-eje-num">02</div>
+          <div class="prop-eje-meta">
+            <div>
+              <span class="prop-eje-segment-tag" style="background:rgba(109,32,229,.15);color:#A855F7;">Concepto Marca</span>
+              <span class="prop-eje-concept">"Hacer Para Saber"</span>
+            </div>
+            <div class="prop-eje-name">Aprender haciendo</div>
+            <div class="prop-eje-desc">Conecta el programa con la identidad profunda de U.Compensar. No solo es acceder a educación gratuita: es entrar a una institución donde la teoría se practica desde el primer día, con conexión real a empresas y al mundo laboral.</div>
+          </div>
+        </div>
+        <div class="prop-eje-tono">Tono<br><span style="color:#A855F7">Aspiracional</span><span style="color:#A855F7"> · Experiencial</span><br><span style="color:#A855F7">Inspirador</span></div>
+      </div>
+
+      <div class="prop-eje-body">
+        <div class="prop-eje-item">
+          <div class="prop-eje-item-num" style="color:#A855F7">A</div>
+          <div class="prop-eje-item-title">Aquí la teoría no se queda en un libro</div>
+          <div class="prop-eje-item-text">Slogan oficial del brand book. Evoca inmediatamente el método Universidad-Empresa y diferencia la experiencia educativa de U.Compensar frente al mercado.</div>
+          <div class="prop-eje-item-copy" style="border-color:#A855F7">"En U.Compensar aprendes haciendo. Desde el primer día."</div>
+        </div>
+        <div class="prop-eje-item">
+          <div class="prop-eje-item-num" style="color:#A855F7">B</div>
+          <div class="prop-eje-item-title">Conecta con empresas reales desde tu carrera</div>
+          <div class="prop-eje-item-text">El modelo Universidad-Empresa es la ventaja competitiva central. Las prácticas y proyectos reales son parte del proceso formativo, no un plus opcional.</div>
+          <div class="prop-eje-item-copy" style="border-color:#A855F7">"Tu carrera, conectada con empresas reales desde clase."</div>
+        </div>
+        <div class="prop-eje-item">
+          <div class="prop-eje-item-num" style="color:#A855F7">C</div>
+          <div class="prop-eje-item-title">Practica. Aprende. Conecta.</div>
+          <div class="prop-eje-item-text">Slogan actualizado del brand book 2026. Sintetiza el método y la promesa de valor en tres palabras. Ideal para formatos cortos y piezas estáticas de alto impacto.</div>
+          <div class="prop-eje-item-copy" style="border-color:#A855F7">"Practica. Aprende. Conecta. Eso es U.Compensar."</div>
+        </div>
+      </div>
+
+      <div class="prop-eje-canales">
+        <div class="prop-eje-canal-tag"><div class="prop-eje-canal-dot" style="background:#010101"></div>TikTok Ads</div>
+        <div class="prop-eje-canal-tag"><div class="prop-eje-canal-dot" style="background:#E4405F"></div>Meta (Instagram Stories)</div>
+        <div class="prop-eje-canal-tag"><div class="prop-eje-canal-dot" style="background:#4285F4"></div>Google Display</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     03. ESTRATEGIA POR CANAL
+═══════════════════════════════════════════════════════════ -->
+<section id="prop-canales" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">Propuesta · 03</div>
+      <h2 class="section-title">Del mensaje a la <span>acción</span></h2>
+      <p class="section-subtitle">TikTok, Google y Meta en sintonía. Los ejes de comunicación se adaptan en formato y tono según cada canal y objetivo.</p>
+    </div>
+  </div>
+
+  <!-- META ADS -->
+  <div class="prop-canal-block">
+    <div class="prop-canal-header">
+      <div class="prop-canal-stripe" style="background:#0866FF"></div>
+      <div>
+        <div class="prop-canal-hname">Meta Ads</div>
+        <div class="prop-canal-obj">Segmentación por municipios de Cundinamarca. Combinar orgullo regional con promesa de educación práctica y diferenciada. Conversión a registro en landing.</div>
+      </div>
+    </div>
+    <div class="prop-enfoques-grid">
+      <div class="prop-enfoque">
+        <div class="prop-enfoque-num">Enfoque 1 · Eje 01</div>
+        <div class="prop-enfoque-title">Identidad regional / Beneficio claro</div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Copy</div>
+          <div class="prop-enfoque-value">"Bogotá está más cerca de lo que crees. Con el programa Cundinamarca Más Profesional, estudias en U.Compensar, tu matrícula queda cubierta y tu región te espera de vuelta."</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Visual</div>
+          <div class="prop-enfoque-note">Carrusel o video mostrando el trayecto: municipio → campus → futuro profesional. CTA: "Aplica ya".</div>
+        </div>
+      </div>
+      <div class="prop-enfoque">
+        <div class="prop-enfoque-num">Enfoque 2 · Eje 01</div>
+        <div class="prop-enfoque-title">Testimonial / Social proof</div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Copy</div>
+          <div class="prop-enfoque-value">"Laura vive en Cundinamarca y siempre quiso ser profesional. Hoy estudia en Bogotá, la Gobernación cubre su matrícula, y su municipio la espera de vuelta. ¿Y tú?"</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Visual</div>
+          <div class="prop-enfoque-note">Video corto 15–30 seg o foto con frase testimonial. Formato Stories y Reels.</div>
+        </div>
+      </div>
+      <div class="prop-enfoque">
+        <div class="prop-enfoque-num">Enfoque 3 · Eje 02</div>
+        <div class="prop-enfoque-title">Aprendizaje práctico / Diferencial</div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Copy</div>
+          <div class="prop-enfoque-value">"En U.Compensar la teoría no se queda en un libro. Desde el primer día practicas con empresas reales. Y con Cundinamarca Más Profesional, tu matrícula está cubierta."</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Visual</div>
+          <div class="prop-enfoque-note">Imágenes de campus y situaciones de práctica real. Iluminación expresiva, personas auténticas en acción.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOOGLE ADS -->
+  <div class="prop-canal-block">
+    <div class="prop-canal-header">
+      <div class="prop-canal-stripe" style="background:#4285F4"></div>
+      <div>
+        <div class="prop-canal-hname">Google Ads</div>
+        <div class="prop-canal-obj">Captación de jóvenes cundinamarqueses que buscan activamente becas, financiación o estudios superiores. Posicionar a U.Compensar como institución aliada del fondo departamental.</div>
+      </div>
+    </div>
+    <div class="prop-enfoques-grid" style="grid-template-columns:1fr 1fr">
+      <div class="prop-enfoque">
+        <div class="prop-enfoque-num">Enfoque 1 · Regional · Eje 01</div>
+        <div class="prop-enfoque-title">Institucional / Georreferenciado</div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Titular</div>
+          <div class="prop-enfoque-value">"Estudia en Bogotá con apoyo de la Gobernación"</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Descripción</div>
+          <div class="prop-enfoque-value">"Cundinamarca Más Profesional en U.Compensar. Matrícula cubierta, sostenimiento incluido. Aplica desde tu municipio."</div>
+        </div>
+      </div>
+      <div class="prop-enfoque">
+        <div class="prop-enfoque-num">Enfoque 2 · Aprendizaje · Eje 02</div>
+        <div class="prop-enfoque-title">Diferencial de método</div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Titular</div>
+          <div class="prop-enfoque-value">"Aprende haciendo. Sin pagar matrícula."</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Descripción</div>
+          <div class="prop-enfoque-value">"U.Compensar conecta tu carrera con empresas reales. Con el programa Cundinamarca Más Profesional, el costo no es el problema."</div>
+        </div>
+      </div>
+    </div>
+    <div class="prop-keywords">
+      <div class="prop-keywords-label">Palabras clave sugeridas</div>
+      <div class="prop-keywords-list">
+        <span class="prop-kw">becas cundinamarca 2026</span>
+        <span class="prop-kw">estudiar en bogota desde cundinamarca</span>
+        <span class="prop-kw">subsidio educacion cundinamarca</span>
+        <span class="prop-kw">ucompensar becas</span>
+        <span class="prop-kw">financiacion matricula cundinamarca</span>
+        <span class="prop-kw">carreras profesionales con beca gobernacion</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIKTOK ADS -->
+  <div class="prop-canal-block">
+    <div class="prop-canal-header">
+      <div class="prop-canal-stripe" style="background:#010101"></div>
+      <div>
+        <div class="prop-canal-hname">TikTok Ads</div>
+        <div class="prop-canal-obj">Conexión emocional con jóvenes a través de piezas cortas y dinámicas. El eje regional usa narrativas de viaje y orgullo; el eje de aprendizaje usa transiciones de campus y vida universitaria real.</div>
+      </div>
+    </div>
+    <div class="prop-enfoques-grid">
+      <div class="prop-enfoque">
+        <div class="prop-enfoque-num">Enfoque 1 · Eje 01</div>
+        <div class="prop-enfoque-title">Antes / Después · Regional</div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Hook (0–2 seg)</div>
+          <div class="prop-enfoque-value">"¿Eres de Cundinamarca y crees que estudiar en Bogotá no es para ti?"</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Desarrollo</div>
+          <div class="prop-enfoque-note">Transición municipio → campus U.Compensar → profesional en su región. Overlay: "La Gobernación lo hace posible".</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">CTA</div>
+          <div class="prop-enfoque-value">"Aplica al programa y empieza tu carrera. El link está arriba."</div>
+        </div>
+      </div>
+      <div class="prop-enfoque">
+        <div class="prop-enfoque-num">Enfoque 2 · Eje 01 + 02</div>
+        <div class="prop-enfoque-title">Reto / Beneficio doble</div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Hook (0–2 seg)</div>
+          <div class="prop-enfoque-value">"Si te gradúas... ¡NO pagas! Y encima aprendes con empresas reales."</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Desarrollo</div>
+          <div class="prop-enfoque-note">Texto animado con los dos beneficios: matrícula cubierta + modelo Universidad-Empresa. Máximo 15 seg.</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">CTA</div>
+          <div class="prop-enfoque-value">"Cundinamarca Más Profesional en U.Compensar. Ingresa ya."</div>
+        </div>
+      </div>
+      <div class="prop-enfoque">
+        <div class="prop-enfoque-num">Enfoque 3 · Eje 01</div>
+        <div class="prop-enfoque-title">Historia real / Laura</div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Hook (0–2 seg)</div>
+          <div class="prop-enfoque-value">"Esta chica de Cundinamarca encontró la forma de estudiar en Bogotá sin pagar. Sigue viendo."</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">Desarrollo</div>
+          <div class="prop-enfoque-note">Mini storytelling de Laura (20 seg). Voz en off o texto overlay sobre imágenes de campus. Cierre con logo del programa.</div>
+        </div>
+        <div class="prop-enfoque-row">
+          <div class="prop-enfoque-label">CTA</div>
+          <div class="prop-enfoque-value">"Aplica hoy. Tu región te espera de vuelta, profesional."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     04. FLOW DE MEDIOS
+═══════════════════════════════════════════════════════════ -->
+<section id="prop-flow" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">Propuesta · 04</div>
+      <h2 class="section-title">Flow de <span>Medios</span></h2>
+      <p class="section-subtitle">Presupuesto total de $6.000.000 COP distribuido en dos meses — mayo y junio 2026.</p>
+    </div>
+  </div>
+
+  <!-- KPI cards -->
+  <div class="prop-kpi-row">
+    <div class="prop-kpi-mini">
+      <div class="prop-kpi-mini-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="#FFC000" stroke-width="1.5"><rect x="2" y="4" width="16" height="13" rx="2"/><path d="M6 4V3M14 4V3M2 9h16"/></svg>
+      </div>
+      <div>
+        <div class="prop-kpi-mini-label">Inversión total</div>
+        <div class="prop-kpi-mini-value yellow">$6.000.000</div>
+        <div class="prop-kpi-mini-sub">Mayo – Junio 2026</div>
+      </div>
+    </div>
+    <div class="prop-kpi-mini">
+      <div class="prop-kpi-mini-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="#9E9E9E" stroke-width="1.5"><path d="M10 2l2.4 4.8 5.3.8-3.85 3.75.91 5.3L10 14.27l-4.76 2.51.91-5.3L2.3 7.6l5.3-.8z"/></svg>
+      </div>
+      <div>
+        <div class="prop-kpi-mini-label">Clics estimados</div>
+        <div class="prop-kpi-mini-value">~12.000</div>
+        <div class="prop-kpi-mini-sub">Tráfico total a landing</div>
+      </div>
+    </div>
+    <div class="prop-kpi-mini">
+      <div class="prop-kpi-mini-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="#9E9E9E" stroke-width="1.5"><circle cx="10" cy="8" r="4"/><path d="M3 18c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg>
+      </div>
+      <div>
+        <div class="prop-kpi-mini-label">Leads proyectados</div>
+        <div class="prop-kpi-mini-value">~280</div>
+        <div class="prop-kpi-mini-sub">CPL estimado ~$21.400</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla flow -->
+  <div class="prop-flow-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Campaña</th>
+          <th>Ppto Total</th>
+          <th>Etapa</th>
+          <th>Medio</th>
+          <th>% Ppto</th>
+          <th>Presupuesto</th>
+          <th>Campañas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="3" style="font-weight:700;color:var(--black);vertical-align:middle">Cundinamarca<br>Más Profesional</td>
+          <td rowspan="3" class="td-amount" style="vertical-align:middle">$6.000.000</td>
+          <td rowspan="3" style="vertical-align:middle"><span class="td-badge badge-presencial">Conversión</span></td>
+          <td>TikTok Ads</td>
+          <td class="td-pct">30%</td>
+          <td class="td-amount">$1.800.000</td>
+          <td style="font-size:12px;color:var(--gray-600)">Público nuevo, intereses, hashtag</td>
+        </tr>
+        <tr>
+          <td>Meta Ads</td>
+          <td class="td-pct">40%</td>
+          <td class="td-amount">$2.400.000</td>
+          <td style="font-size:12px;color:var(--gray-600)">Público nuevo, intereses</td>
+        </tr>
+        <tr>
+          <td>Google Ads</td>
+          <td class="td-pct">30%</td>
+          <td class="td-amount">$1.800.000</td>
+          <td style="font-size:12px;color:var(--gray-600)">Intereses, palabras clave</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3"><strong>KPI Estimados</strong></td>
+          <td colspan="2"><strong>Clics: ~12.000</strong></td>
+          <td colspan="2"><strong>Leads: ~280</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prop-footnote">
+    Este flow de medios está diseñado con la inversión mínima requerida por cada plataforma para la ejecución de campañas tipo mensuales. Los costos y resultados pueden variar según la segmentación, cambios en el entorno económico o fluctuaciones en la TRM.
+  </div>
+
+</section>
+  
 </main>
 
 <script>
