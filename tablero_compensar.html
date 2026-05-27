@@ -385,7 +385,8 @@ function processAndRender(){
       }
     });
   }
-  console.log('🎯 Metas:',metasByNivel);
+  console.log('🎯 Metas por nivel:',metasByNivel);
+  console.log('🔑 Keys metaProgMap (primeras 5):',Object.keys(metaProgMap).slice(0,5));
 
   renderKPIs({inv_total,leads_p,leads_crm,cpl_p,cpl_crm,conv_pct});
   renderNivelKPIs(filtered, metasByNivel);
@@ -440,6 +441,7 @@ function processAndRender(){
     const keyFull=(p.Programa+'||'+p.Nivel+'||'+p.Modal).toUpperCase();
     const keyBase=(p.Programa+'||'+p.Nivel+'||').toUpperCase();
     const meta = metaProgMap[keyFull] || metaProgMap[keyBase] || null;
+    if(!meta && p.leads_crm>0) console.log('❌ Sin meta para:',keyFull);
     const meta_leads = meta?.leads||0;
     const cumpl_pct  = meta_leads ? Math.min(p.leads_crm/meta_leads*100,100) : null;
     return {
@@ -679,7 +681,8 @@ function renderAllProgTables(){
         <td class="num" style="color:#B8860B;font-weight:700">${fmtCOP(p.cpl_pauta)}</td>
         <td class="num bold">${fmtNz(p.leads_crm)}</td>
         <td class="num" style="color:#B8860B;font-weight:700">${fmtCOP(p.cpl_crm)}</td>
-        <td class="num" style="font-weight:700;color:${p.conv_pct>5?'#166534':p.conv_pct>2?'#92400E':'#888'}">${fmtP(p.conv_pct)}</td>`;
+        <td class="num">${p.meta_leads?fmtNz(p.meta_leads):'—'}</td>
+        <td class="num" style="font-weight:700;color:${p.cumpl_pct===null?'#aaa':p.cumpl_pct>=80?'#166534':p.cumpl_pct>=50?'#92400E':'#991B1B'}">${p.cumpl_pct!==null?p.cumpl_pct.toFixed(1)+'%':'—'}</td>`;
       return `<tr>${base}${extra}</tr>`;
     }).join('');
 
