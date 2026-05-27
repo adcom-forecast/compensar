@@ -386,7 +386,6 @@ function processAndRender(){
     });
   }
   console.log('🎯 Metas por nivel:',metasByNivel);
-  console.log('🔑 Keys metaProgMap (primeras 5):',Object.keys(metaProgMap).slice(0,5));
 
   renderKPIs({inv_total,leads_p,leads_crm,cpl_p,cpl_crm,conv_pct});
   renderNivelKPIs(filtered, metasByNivel);
@@ -436,6 +435,7 @@ function processAndRender(){
     });
   }
 
+  console.log('🔑 Keys metaProgMap (primeras 5):',Object.keys(metaProgMap).slice(0,5));
   window._progData = Object.values(progMap).map(p=>{
     // Buscar meta: primero prog+nivel+modal, luego prog+nivel (sin modal)
     const keyFull=(p.Programa+'||'+p.Nivel+'||'+p.Modal).toUpperCase();
