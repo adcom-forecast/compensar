@@ -317,6 +317,24 @@ function refreshData(){
   });
 }
 
+// ── FUNCIÓN GLOBAL: normalizar nivel ─────────────────────────────────────────
+// Normalizar string: quitar tildes + mayúsculas para match robusto
+function normStr(s){
+  return String(s||'').trim().toUpperCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'');
+}
+
+function normalizarNivel(n){
+  const s = String(n||'').trim().toLowerCase();
+  if(s.startsWith('pregrado'))     return 'Pregrado';
+  if(s.startsWith('posgrado'))     return 'Posgrado';
+  if(s.startsWith('técnico') || s.startsWith('tecnico')) return 'Técnico laboral';
+  if(s.startsWith('edtech'))       return 'EDTECH';
+  if(s.startsWith('evento'))       return 'Eventos';
+  if(s.startsWith('branding'))     return 'Branding';
+  return null;
+}
+
 // ── COLUMNAS RG (índice 0-based) ──────────────────────────────────────────────
 // [0]Fecha [1]Campaña [2]Costo(inv) [3]Leads Plataforma [4]Canal [5]CPL
 // [6]PERIODO [7]SEDE [8]NIVEL [9]MODALIDAD [10]PROGRAMA [11]LEAD CRM [12]CPL CRM
@@ -370,13 +388,28 @@ function processAndRender(){
 
   console.log('📊 Inv:',inv_total,'LP:',leads_p,'LCRM:',leads_crm);
 
+  // (normalizarNivel es función global definida abajo)
+  // Normalizar nivel de metas al key exacto que usan las cards — PLACEHOLDER
+  void 0;
+  function _unused(){
+    const s = String(n||'').trim().toLowerCase();
+    if(s.startsWith('pregrado'))     return 'Pregrado';
+    if(s.startsWith('posgrado'))     return 'Posgrado';
+    if(s.startsWith('técnico') || s.startsWith('tecnico')) return 'Técnico laboral';
+    if(s.startsWith('edtech'))       return 'EDTECH';
+    if(s.startsWith('evento'))       return 'Eventos';
+    if(s.startsWith('branding'))     return 'Branding';
+    // Adicionales, Remarketing, Lanzamientos, Comunicación adicional → ignorar
+    return null;
+  }
+
   // Metas: solapamiento de fechas
   const metasByNivel={};
   if(RAW_METAS.length && fDesde && fHasta){
     RAW_METAS.forEach(r=>{
       const fIni = parseFecha(r[1]).full;
       const fFin = parseFecha(r[2]).full;
-      const nivel = String(r[3]||'').trim();
+      const nivel = normalizarNivel(r[3]);
       if(fIni<=fHasta && fFin>=fDesde && nivel){
         if(!metasByNivel[nivel]) metasByNivel[nivel]={leads:0,inv:0,mat:0};
         metasByNivel[nivel].leads += parseLeads(r[6]);
@@ -385,7 +418,7 @@ function processAndRender(){
       }
     });
   }
-  console.log('🎯 Metas por nivel:',metasByNivel);
+  console.log('🎯 Metas por nivel normalizadas:',metasByNivel);
 
   renderKPIs({inv_total,leads_p,leads_crm,cpl_p,cpl_crm,conv_pct});
   renderNivelKPIs(filtered, metasByNivel);
@@ -427,7 +460,8 @@ function processAndRender(){
       const fIni=parseFecha(r[1]).full;
       const fFin=parseFecha(r[2]).full;
       if(fIni<=fHasta && fFin>=fDesde){
-        const key=(String(r[4]||'').trim()+'||'+String(r[3]||'').trim()+'||'+String(r[5]||'').trim()).toUpperCase();
+        const nivelNorm = normalizarNivel(r[3])||String(r[3]||'').trim();
+        const key=normStr(r[4])+'||'+normStr(nivelNorm)+'||'+normStr(r[5]);
         if(!metaProgMap[key]) metaProgMap[key]={leads:0,inv:0};
         metaProgMap[key].leads += Math.round(parseFloat(String(r[6]||'0').replace(',','.'))||0);
         metaProgMap[key].inv   += parseInv(r[9]);
@@ -438,8 +472,9 @@ function processAndRender(){
   console.log('🔑 Keys metaProgMap (primeras 5):',Object.keys(metaProgMap).slice(0,5));
   window._progData = Object.values(progMap).map(p=>{
     // Buscar meta: primero prog+nivel+modal, luego prog+nivel (sin modal)
-    const keyFull=(p.Programa+'||'+p.Nivel+'||'+p.Modal).toUpperCase();
-    const keyBase=(p.Programa+'||'+p.Nivel+'||').toUpperCase();
+    const nivelNormP = normalizarNivel(p.Nivel)||p.Nivel;
+    const keyFull=normStr(p.Programa)+'||'+normStr(nivelNormP)+'||'+normStr(p.Modal);
+    const keyBase=normStr(p.Programa)+'||'+normStr(nivelNormP)+'||';
     const meta = metaProgMap[keyFull] || metaProgMap[keyBase] || null;
     if(!meta && p.leads_crm>0) console.log('❌ Sin meta para:',keyFull);
     const meta_leads = meta?.leads||0;
