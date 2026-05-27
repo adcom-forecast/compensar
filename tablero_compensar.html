@@ -470,23 +470,53 @@ function processAndRender(){
   }
 
   console.log('🔑 Keys metaProgMap (primeras 5):',Object.keys(metaProgMap).slice(0,5));
-  window._progData = Object.values(progMap).map(p=>{
-    // Buscar meta: primero prog+nivel+modal, luego prog+nivel (sin modal)
+  // Keys ya usadas por programas del RG
+  const keysEnRG = new Set();
+
+  const progDataFromRG = Object.values(progMap).map(p=>{
     const nivelNormP = normalizarNivel(p.Nivel)||p.Nivel;
     const keyFull=normStr(p.Programa)+'||'+normStr(nivelNormP)+'||'+normStr(p.Modal);
     const keyBase=normStr(p.Programa)+'||'+normStr(nivelNormP)+'||';
+    keysEnRG.add(keyFull);
     const meta = metaProgMap[keyFull] || metaProgMap[keyBase] || null;
     if(!meta && p.leads_crm>0) console.log('❌ Sin meta para:',keyFull);
     const meta_leads = meta?.leads||0;
     const cumpl_pct  = meta_leads ? Math.min(p.leads_crm/meta_leads*100,100) : null;
     return {
-      ...p,
-      meta_leads, cumpl_pct,
+      ...p, meta_leads, cumpl_pct,
       cpl_pauta: p.leads_pauta?p.inv_total/p.leads_pauta:0,
       cpl_crm:   p.leads_crm?p.inv_total/p.leads_crm:0,
       conv_pct:  p.leads_pauta?p.leads_crm/p.leads_pauta*100:0
     };
   });
+
+  // Agregar programas de METAS que no tienen gasto aún en el RG
+  const progDataFromMetas = Object.entries(metaProgMap)
+    .filter(([key, meta]) => !keysEnRG.has(key) && (meta.leads>0 || meta.inv>0))
+    .map(([key, meta]) => {
+      // Reconstruir programa/nivel/modal desde la key normalizada
+      // Buscar la fila original en RAW_METAS para obtener nombres reales
+      const metaRow = RAW_METAS.find(r=>{
+        const nivelNorm = normalizarNivel(r[3])||String(r[3]||'').trim();
+        const k = normStr(r[4])+'||'+normStr(nivelNorm)+'||'+normStr(r[5]);
+        return k===key;
+      });
+      if(!metaRow) return null;
+      const nivel = normalizarNivel(metaRow[3])||String(metaRow[3]||'').trim();
+      return {
+        Programa: String(metaRow[4]||'').trim(),
+        Nivel:    nivel,
+        Modal:    String(metaRow[5]||'').trim(),
+        inv_total:0, inv_Facebook:0, inv_Google:0, inv_TikTok:0, inv_Linkedin:0,
+        leads_pauta:0, leads_crm:0,
+        meta_leads: meta.leads||0,
+        cumpl_pct: 0,
+        cpl_pauta:0, cpl_crm:0, conv_pct:0
+      };
+    }).filter(Boolean);
+
+  console.log('📋 Programas sin gasto pero con meta:',progDataFromMetas.length);
+  window._progData = [...progDataFromRG, ...progDataFromMetas];
 
   const meses=Object.keys(mesNivelMap).sort();
   $('period-tag').textContent='📅 '+(fDesde||meses[0]||'')+' → '+(fHasta||meses[meses.length-1]||'');
