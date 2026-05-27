@@ -388,22 +388,8 @@ function processAndRender(){
 
   console.log('📊 Inv:',inv_total,'LP:',leads_p,'LCRM:',leads_crm);
 
-  // (normalizarNivel es función global definida abajo)
-  // Normalizar nivel de metas al key exacto que usan las cards — PLACEHOLDER
-  void 0;
-  function _unused(){
-    const s = String(n||'').trim().toLowerCase();
-    if(s.startsWith('pregrado'))     return 'Pregrado';
-    if(s.startsWith('posgrado'))     return 'Posgrado';
-    if(s.startsWith('técnico') || s.startsWith('tecnico')) return 'Técnico laboral';
-    if(s.startsWith('edtech'))       return 'EDTECH';
-    if(s.startsWith('evento'))       return 'Eventos';
-    if(s.startsWith('branding'))     return 'Branding';
-    // Adicionales, Remarketing, Lanzamientos, Comunicación adicional → ignorar
-    return null;
-  }
-
   // Metas: solapamiento de fechas
+  console.log('🗓 Primeras 3 filas METAS raw:', RAW_METAS.slice(0,3).map(r=>({nivel:r[3],fIni:r[1],fFin:r[2],prog:r[4]})));
   const metasByNivel={};
   if(RAW_METAS.length && fDesde && fHasta){
     RAW_METAS.forEach(r=>{
