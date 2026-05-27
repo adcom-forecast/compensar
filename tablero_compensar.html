@@ -420,12 +420,36 @@ function processAndRender(){
     p.leads_crm+=r.leadsCRM;
   });
 
-  window._progData = Object.values(progMap).map(p=>({
-    ...p,
-    cpl_pauta: p.leads_pauta?p.inv_total/p.leads_pauta:0,
-    cpl_crm:   p.leads_crm?p.inv_total/p.leads_crm:0,
-    conv_pct:  p.leads_pauta?p.leads_crm/p.leads_pauta*100:0
-  }));
+  // Construir mapa de metas por programa+nivel+modalidad
+  const metaProgMap={};
+  if(RAW_METAS.length && fDesde && fHasta){
+    RAW_METAS.forEach(r=>{
+      const fIni=parseFecha(r[1]).full;
+      const fFin=parseFecha(r[2]).full;
+      if(fIni<=fHasta && fFin>=fDesde){
+        const key=(String(r[4]||'').trim()+'||'+String(r[3]||'').trim()+'||'+String(r[5]||'').trim()).toUpperCase();
+        if(!metaProgMap[key]) metaProgMap[key]={leads:0,inv:0};
+        metaProgMap[key].leads += Math.round(parseFloat(String(r[6]||'0').replace(',','.'))||0);
+        metaProgMap[key].inv   += parseInv(r[9]);
+      }
+    });
+  }
+
+  window._progData = Object.values(progMap).map(p=>{
+    // Buscar meta: primero prog+nivel+modal, luego prog+nivel (sin modal)
+    const keyFull=(p.Programa+'||'+p.Nivel+'||'+p.Modal).toUpperCase();
+    const keyBase=(p.Programa+'||'+p.Nivel+'||').toUpperCase();
+    const meta = metaProgMap[keyFull] || metaProgMap[keyBase] || null;
+    const meta_leads = meta?.leads||0;
+    const cumpl_pct  = meta_leads ? Math.min(p.leads_crm/meta_leads*100,100) : null;
+    return {
+      ...p,
+      meta_leads, cumpl_pct,
+      cpl_pauta: p.leads_pauta?p.inv_total/p.leads_pauta:0,
+      cpl_crm:   p.leads_crm?p.inv_total/p.leads_crm:0,
+      conv_pct:  p.leads_pauta?p.leads_crm/p.leads_pauta*100:0
+    };
+  });
 
   const meses=Object.keys(mesNivelMap).sort();
   $('period-tag').textContent='📅 '+(fDesde||meses[0]||'')+' → '+(fHasta||meses[meses.length-1]||'');
@@ -483,7 +507,7 @@ function renderNivelKPIs(filtered, metas){
 
     const pctInv = meta?.inv ? Math.min(inv/meta.inv*100,100) : null;
     const isEvt  = nv==='Eventos';
-    const pctLeads = (!isEvt && meta?.leads) ? Math.min(lp/meta.leads*100,100) : null;
+    const pctLeads = (!isEvt && meta?.leads) ? Math.min(lc/meta.leads*100,100) : null;
 
     const bar=(pct,label,fill,metaVal)=>pct!==null?`
       <div class="kpi-meta">
@@ -632,6 +656,7 @@ function renderAllProgTables(){
     const tLI =rows.reduce((a,r)=>a+(r.inv_Linkedin||0),0);
     const tLP =rows.reduce((a,r)=>a+(r.leads_pauta||0),0);
     const tLC =rows.reduce((a,r)=>a+(r.leads_crm||0),0);
+    const tML =rows.reduce((a,r)=>a+(r.meta_leads||0),0);
 
     const badge=v=>`<span class="badge b-${v||'General'}">${v||'—'}</span>`;
     const th=(col,lbl,isNum,style)=>{
@@ -671,14 +696,16 @@ function renderAllProgTables(){
          <td class="num yellow">${fmtCOP(tLP?tI/tLP:0)}</td>
          <td class="num yellow">${fmtNz(tLC)}</td>
          <td class="num yellow">${fmtCOP(tLC?tI/tLC:0)}</td>
-         <td class="num yellow">${fmtP(tLP?tLC/tLP*100:0)}</td></tr>`;
+         <td class="num yellow">${fmtNz(tML)}</td>
+         <td class="num yellow">${tML?Math.min(tLC/tML*100,100).toFixed(0)+'%':'—'}</td></tr>`;
 
     const extraH=isEvt?'':` 
       ${th('leads_pauta','Leads Plataforma',true)}
       ${th('cpl_pauta','CPL Plat.',true,'color:#B8860B')}
       ${th('leads_crm','Leads CRM',true)}
       ${th('cpl_crm','CPL CRM',true)}
-      ${th('conv_pct','Conv%',true)}`;
+      ${th('meta_leads','Meta Leads',true)}
+      ${th('cumpl_pct','% Cumpl.',true)}`;
 
     return `<div class="prog-section">
       <div class="prog-section-title ${g.cls}">${g.label} — ${rows.length} programas · ${fmtCOP(tI)}</div>
