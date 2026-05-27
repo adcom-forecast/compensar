@@ -436,11 +436,11 @@ function processAndRender(){
   });
   window._mesData = mesNivelMap;
 
-  // Por programa: clave prog+nivel
+  // Por programa: clave prog+nivel+modal
   const progMap={};
   filtered.forEach(r=>{
     if(!r.prog) return;
-    const key=r.prog+'||'+r.nivel;
+    const key=r.prog+'||'+r.nivel+'||'+r.modal;
     if(!progMap[key]) progMap[key]={
       Programa:r.prog, Nivel:r.nivel, Modal:r.modal,
       inv_total:0, inv_Facebook:0, inv_Google:0, inv_TikTok:0, inv_Linkedin:0,
@@ -491,8 +491,17 @@ function processAndRender(){
   });
 
   // Agregar programas de METAS que no tienen gasto aún en el RG
+  // Excluir Branding/Eventos (van en su propia tabla) y los sin meta de leads
   const progDataFromMetas = Object.entries(metaProgMap)
-    .filter(([key, meta]) => !keysEnRG.has(key) && (meta.leads>0 || meta.inv>0))
+    .filter(([key, meta]) => {
+      if(keysEnRG.has(key)) return false;
+      if(meta.leads<=0) return false;
+      // Excluir si el nivel normalizado es Branding o Eventos
+      const partes = key.split('||');
+      const nivelKey = partes[1]||'';
+      if(nivelKey==='BRANDING'||nivelKey==='EVENTOS') return false;
+      return true;
+    })
     .map(([key, meta]) => {
       // Reconstruir programa/nivel/modal desde la key normalizada
       // Buscar la fila original en RAW_METAS para obtener nombres reales
