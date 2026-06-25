@@ -370,6 +370,43 @@
   </span>
   <span class="nav-label">Flow de Medios</span>
 </a>
+    <div class="nav-section-label">RUTA ESTRATÉGICA B2B</div>
+<a class="nav-item" href="#b2b-contexto">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="7"/><path d="M9 6v3l2 2"/></svg></span>
+  <span class="nav-label">Contexto</span>
+</a>
+<a class="nav-item" href="#b2b-diagnostico">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 9h4l3-6 3 12 3-6h3"/></svg></span>
+  <span class="nav-label">Diagnóstico</span>
+</a>
+<a class="nav-item" href="#b2b-portafolio">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="14" height="9" rx="2"/><path d="M6 5V4a3 3 0 016 0v1"/></svg></span>
+  <span class="nav-label">Portafolio</span>
+</a>
+<a class="nav-item" href="#b2b-personas">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="7" r="3"/><path d="M3 17c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></span>
+  <span class="nav-label">Buyer Personas</span>
+</a>
+<a class="nav-item" href="#b2b-ejes">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h12M9 3l6 6-6 6"/></svg></span>
+  <span class="nav-label">Ejes de Comunicación</span>
+</a>
+<a class="nav-item" href="#b2b-presupuesto">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 14V4h12v10"/><path d="M7 14V9h4v5"/></svg></span>
+  <span class="nav-label">Presupuesto</span>
+</a>
+<a class="nav-item" href="#b2b-canales">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="16" height="11" rx="2"/><path d="M6 4V3a3 3 0 016 0v1"/></svg></span>
+  <span class="nav-label">Estrategia por Canal</span>
+</a>
+<a class="nav-item" href="#b2b-flow">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="16" height="12" rx="1.5"/><path d="M1 8h16M5 3v12M9 3v12M13 3v12"/></svg></span>
+  <span class="nav-label">Flow de Medios</span>
+</a>
+<a class="nav-item" href="#b2b-postlead">
+  <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 5h14v9a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M2 5l7 6 7-6"/></svg></span>
+  <span class="nav-label">Flujo Post-Lead</span>
+</a>
   </nav>
 </aside>
 
@@ -1979,6 +2016,751 @@
 
 </section>
   
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- RUTA ESTRATÉGICA B2B                                   -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<style>
+  /* B2B HERO DIVIDER */
+  .b2b-hero { background: var(--black); padding: 72px 40px 56px; border-bottom: 1px solid var(--gray-200); position: relative; overflow: hidden; }
+  .b2b-hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; background: var(--yellow); border-radius: 50%; opacity: .05; }
+  .b2b-hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,192,0,.15); border: 1px solid rgba(255,192,0,.3); border-radius: 20px; padding: 5px 14px; margin-bottom: 20px; }
+  .b2b-hero-tag span { font-size: 11px; font-weight: 700; color: var(--yellow); text-transform: uppercase; letter-spacing: .1em; }
+  .b2b-hero-title { font-size: 52px; font-weight: 900; color: var(--white); line-height: 1.05; letter-spacing: -.02em; margin-bottom: 8px; }
+  .b2b-hero-title em { color: var(--yellow); font-style: normal; }
+  .b2b-hero-sub { font-size: 15px; color: rgba(255,255,255,.45); margin-bottom: 40px; }
+  .b2b-hero-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+  .b2b-chip { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 7px 16px; font-size: 12px; font-weight: 500; color: rgba(255,255,255,.7); }
+  .b2b-chip.yellow { background: var(--yellow); color: var(--black); border-color: var(--yellow); font-weight: 700; }
+
+  /* B2B TABLES */
+  .b2b-table-wrap { overflow-x: auto; margin-top: 24px; border-radius: var(--radius-md); border: 1px solid var(--gray-200); }
+  .b2b-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .b2b-table thead tr { background: var(--black); }
+  .b2b-table thead th { padding: 14px 16px; text-align: left; font-size: 11px; font-weight: 600; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+  .b2b-table thead th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+  .b2b-table thead th:last-child { border-radius: 0 var(--radius-sm) 0 0; }
+  .b2b-table tbody tr { border-bottom: 1px solid var(--gray-100); transition: background .15s; }
+  .b2b-table tbody tr:last-child { border-bottom: none; }
+  .b2b-table tbody tr:hover { background: var(--gray-50); }
+  .b2b-table tbody td { padding: 13px 16px; color: var(--gray-600); vertical-align: top; line-height: 1.5; }
+  .b2b-table tbody td strong { color: var(--black); font-weight: 600; }
+  .b2b-table .total-row { background: #FFF8E1; }
+  .b2b-table .total-row td { font-weight: 700; color: var(--black); }
+
+  /* PRIORITY BADGES */
+  .badge-alta { display: inline-block; background: #FFEBEE; color: #C62828; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .badge-secundaria { display: inline-block; background: #FFF9C4; color: #F57F17; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .badge-terciaria { display: inline-block; background: #E8F5E9; color: #2E7D32; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .badge-conversion { display: inline-block; background: #E3F2FD; color: #1565C0; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .badge-branding { display: inline-block; background: rgba(255,192,0,.15); color: #B07E00; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+
+  /* COLUMNAS CARDS */
+  .col-8-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
+  .col-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; }
+  .col-card-num { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+  .col-card-title { font-size: 16px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+  .col-card-body { font-size: 13px; color: var(--gray-600); line-height: 1.7; }
+  .col-card-action { margin-top: 10px; font-size: 12px; color: var(--gray-400); font-style: italic; }
+  .col-card.warning { border-left: 3px solid #FF6B35; }
+  .col-card.warning .col-card-num { color: #FF6B35; }
+
+  /* PERSONA CARDS */
+  .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 24px; }
+  .persona-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; }
+  .persona-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .persona-avatar { width: 48px; height: 48px; background: var(--black); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: var(--yellow); flex-shrink: 0; }
+  .persona-name { font-size: 15px; font-weight: 700; color: var(--black); }
+  .persona-role { font-size: 12px; color: var(--gray-400); }
+  .persona-row { display: flex; gap: 10px; margin-bottom: 10px; }
+  .persona-row-label { font-size: 10px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: .08em; min-width: 80px; padding-top: 2px; }
+  .persona-row-value { font-size: 13px; color: var(--gray-600); line-height: 1.5; flex: 1; }
+  .persona-insight { background: var(--black); border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 16px; font-size: 13px; color: var(--yellow); font-style: italic; font-weight: 500; line-height: 1.5; }
+
+  /* EJE CARDS */
+  .eje-sombrilla { background: var(--black); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; }
+  .eje-sombrilla-label { font-size: 10px; font-weight: 700; color: rgba(255,192,0,.6); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 8px; }
+  .eje-sombrilla-title { font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+  .eje-sombrilla-sub { font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 20px; line-height: 1.6; }
+  .eje-quotes { display: flex; flex-direction: column; gap: 10px; }
+  .eje-quote { background: rgba(255,192,0,.1); border-left: 3px solid var(--yellow); padding: 10px 14px; font-size: 13px; color: rgba(255,255,255,.8); font-style: italic; line-height: 1.5; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .eje-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .eje-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; }
+  .eje-card-num { font-size: 10px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 4px; }
+  .eje-card-title { font-size: 15px; font-weight: 700; color: var(--black); margin-bottom: 4px; }
+  .eje-card-tono { font-size: 11px; color: var(--gray-400); font-style: italic; margin-bottom: 14px; }
+  .eje-card-quotes { display: flex; flex-direction: column; gap: 8px; }
+  .eje-card-quote { background: var(--gray-50); border-left: 2px solid var(--yellow); padding: 8px 12px; font-size: 12px; color: var(--gray-600); font-style: italic; line-height: 1.5; border-radius: 0 4px 4px 0; }
+
+  /* FLOW TABLE */
+  .b2b-flow-table-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--gray-200); margin-top: 24px; }
+  .b2b-flow-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .b2b-flow-table thead tr { background: var(--black); }
+  .b2b-flow-table thead th { padding: 12px 14px; text-align: left; font-size: 10px; font-weight: 600; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+  .b2b-flow-table tbody tr { border-bottom: 1px solid var(--gray-100); }
+  .b2b-flow-table tbody tr:hover { background: var(--gray-50); }
+  .b2b-flow-table tbody td { padding: 11px 14px; color: var(--gray-600); vertical-align: middle; }
+  .b2b-flow-table .subtotal-row { background: #F8F8F8; }
+  .b2b-flow-table .subtotal-row td { font-weight: 700; color: var(--black); font-size: 11px; }
+  .b2b-flow-table .total-row { background: var(--black); }
+  .b2b-flow-table .total-row td { font-weight: 800; color: var(--white); font-size: 13px; }
+  .b2b-flow-table .pico { background: rgba(255,192,0,.08); }
+  .td-monto { font-weight: 600; color: var(--black); }
+  .td-pico { background: var(--yellow); color: var(--black); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 10px; white-space: nowrap; }
+
+  /* POST-LEAD STEPS */
+  .postlead-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+  .postlead-step { display: flex; align-items: flex-start; gap: 16px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 18px 20px; transition: transform .15s, box-shadow .15s; }
+  .postlead-step:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(0,0,0,.05); }
+  .postlead-step-num { width: 32px; height: 32px; background: var(--black); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: var(--yellow); flex-shrink: 0; }
+  .postlead-step-body { flex: 1; }
+  .postlead-step-title { font-size: 14px; font-weight: 700; color: var(--black); margin-bottom: 3px; }
+  .postlead-step-desc { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+  .postlead-step-meta { font-size: 11px; color: var(--gray-400); margin-top: 3px; }
+  .postlead-step-timing { background: var(--yellow); color: var(--black); font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; align-self: center; }
+
+  /* CANAL BLOCKS */
+  .canal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+  .canal-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; }
+  .canal-card-logo { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 10px; color: var(--black); }
+  .canal-card-role { font-size: 12px; color: var(--gray-400); font-style: italic; margin-bottom: 16px; border-bottom: 1px solid var(--gray-100); padding-bottom: 12px; }
+  .canal-card-list { display: flex; flex-direction: column; gap: 7px; }
+  .canal-item { display: flex; gap: 8px; font-size: 12px; color: var(--gray-600); line-height: 1.4; }
+  .canal-item::before { content: '→'; color: var(--yellow); font-weight: 700; flex-shrink: 0; }
+
+  /* SEGMENT TABLE */
+  .seg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .seg-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 20px; }
+  .seg-card-title { font-size: 13px; font-weight: 700; color: var(--black); margin-bottom: 6px; }
+  .seg-card-desc { font-size: 12px; color: var(--gray-600); margin-bottom: 8px; line-height: 1.5; }
+  .seg-card-tag { font-size: 11px; color: var(--gray-400); font-style: italic; }
+
+  /* PRESUPUESTO BARS */
+  .budget-bar-list { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+  .budget-bar-item { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 18px 20px; }
+  .budget-bar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .budget-bar-name { font-size: 13px; font-weight: 600; color: var(--black); }
+  .budget-bar-amount { font-size: 13px; font-weight: 700; color: var(--black); }
+  .budget-bar-track { height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+  .budget-bar-fill { height: 100%; background: var(--yellow); border-radius: 3px; transition: width 1s ease; }
+  .budget-bar-meta { display: flex; justify-content: space-between; margin-top: 6px; }
+  .budget-bar-pct { font-size: 11px; color: var(--gray-400); }
+  .budget-bar-obj { font-size: 11px; color: var(--gray-400); }
+</style>
+
+<!-- B2B DIVIDER HERO -->
+<div class="b2b-hero section" id="b2b-hero-divider">
+  <div class="b2b-hero-tag"><span>Nueva sección</span></div>
+  <div class="b2b-hero-title">Ruta Estratégica <em>B2B</em></div>
+  <div class="b2b-hero-sub">Soluciones Empresariales · Julio–Diciembre 2026 · $500.000.000 COP</div>
+  <div class="b2b-hero-chips">
+    <span class="b2b-chip yellow">$500M inversión</span>
+    <span class="b2b-chip">3.001 leads B2B</span>
+    <span class="b2b-chip">LinkedIn · Google · Meta</span>
+    <span class="b2b-chip">6 productos</span>
+    <span class="b2b-chip">6 meses</span>
+  </div>
+</div>
+
+<!-- 01 CONTEXTO ESTRATÉGICO -->
+<section id="b2b-contexto" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">01 — Contexto Estratégico</div>
+      <div class="section-title">El reto <span>B2B</span></div>
+      <div class="section-subtitle">Posicionar a U.Compensar como el aliado estratégico de empresas colombianas en productividad, innovación y desarrollo del talento.</div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-card-label">Inversión total</div>
+      <div class="kpi-card-value yellow">$500M</div>
+      <div class="kpi-card-sub">COP · Julio–Diciembre 2026</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card-label">Meta de leads</div>
+      <div class="kpi-card-value">3.001</div>
+      <div class="kpi-card-sub">Prospectos B2B calificados (conversión)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card-label">Canales activos</div>
+      <div class="kpi-card-value">3</div>
+      <div class="kpi-card-sub">LinkedIn Ads · Google Ads · Meta Ads</div>
+    </div>
+  </div>
+
+  <div class="text-block" style="margin-top:24px;">
+    La estrategia opera en <strong>dos frentes simultáneos</strong>: <strong>generación de leads calificados</strong> para los productos de conversión (Propulsor C-Level, Propulsor Empresas y Escala Empresarial) y <strong>construcción de marca y posicionamiento</strong> para los productos de branding (Educación Continua B2B, Laboratorio de Innovación y POSIBLE). Un flujo de contacto estructurado post-lead garantiza que ningún prospecto captado se pierda sin atención en las primeras 2 horas.
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="section-number" style="margin-bottom:16px;">Segmentación y público objetivo</div>
+    <div class="seg-grid">
+      <div class="seg-card">
+        <div class="seg-card-title">PYMES</div>
+        <div class="seg-card-desc">Empresas pequeñas y medianas en proceso de formalización y crecimiento inicial.</div>
+        <div class="seg-card-tag">Gerentes generales · Líderes de RRHH · Fundadores</div>
+      </div>
+      <div class="seg-card">
+        <div class="seg-card-title">Medianas</div>
+        <div class="seg-card-desc">Organizaciones en crecimiento y consolidación estructural.</div>
+        <div class="seg-card-tag">Directores de área · VP · Gerencias medias</div>
+      </div>
+      <div class="seg-card">
+        <div class="seg-card-title">Grandes / Corporativos</div>
+        <div class="seg-card-desc">Corporativos y multinacionales con operaciones complejas.</div>
+        <div class="seg-card-tag">CEO · C-Level (CFO, COO, CTO, CHRO) · Directores estratégicos</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="section-number" style="margin-bottom:16px;">Sectores económicos priorizados</div>
+    <div class="b2b-table-wrap">
+      <table class="b2b-table">
+        <thead><tr><th>Sector</th><th>Empresas</th><th>Prioridad</th><th>Ejes temáticos</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Comunicaciones y Tecnología</strong></td><td>376</td><td><span class="badge-alta">🔴 Alta</span></td><td>IA, ciberseguridad, infraestructura digital, talento tech</td></tr>
+          <tr><td><strong>Financiero</strong></td><td>66</td><td><span class="badge-alta">🔴 Alta</span></td><td>Banca digital, riesgo, cumplimiento, experiencia del cliente</td></tr>
+          <tr><td><strong>Servicios</strong></td><td>561</td><td><span class="badge-secundaria">🟡 Secundaria</span></td><td>Transformación digital, experiencia del cliente, operaciones eficientes</td></tr>
+          <tr><td><strong>Logística</strong></td><td>111</td><td><span class="badge-secundaria">🟡 Secundaria</span></td><td>Supply chain, última milla, sostenibilidad logística</td></tr>
+          <tr><td><strong>Comercial</strong></td><td>515</td><td><span class="badge-terciaria">🟢 Terciaria</span></td><td>Omnicanalidad, logística, experiencia de compra</td></tr>
+          <tr><td><strong>Manufactura</strong></td><td>—</td><td><span class="badge-terciaria">🟢 Terciaria</span></td><td>Productividad operativa, automatización, lean manufacturing</td></tr>
+          <tr><td><strong>Turismo</strong></td><td>63</td><td><span class="badge-terciaria">🟢 Terciaria</span></td><td>Reactivación, experiencia turística, turismo sostenible</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 02 DIAGNÓSTICO -->
+<section id="b2b-diagnostico" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">02 — Diagnóstico</div>
+      <div class="section-title">Marketing <span>Estructural®</span></div>
+      <div class="section-subtitle">Las 8 Columnas® aplicadas a la estrategia B2B de U.Compensar. Identificamos el hueco antes de invertir más presupuesto.</div>
+    </div>
+  </div>
+
+  <div class="text-block">
+    <em>"Usar marketing sin estructura es tirar el dinero a la basura. El objetivo es profesionalizar y dar dirección a todas las áreas que componen el crecimiento de la marca." — Marketing Estructural®</em>
+  </div>
+
+  <div class="col-8-grid" style="margin-top:24px;">
+    <div class="col-card">
+      <div class="col-card-num">Columna 1 · Marca e identidad</div>
+      <div class="col-card-title">Key visual empresarial definido</div>
+      <div class="col-card-body">Sistema de identidad con violeta corporativo y tono consultivo.</div>
+      <div class="col-card-action">→ Aplicar key visual en todas las piezas. Tono diferenciado por producto.</div>
+    </div>
+    <div class="col-card">
+      <div class="col-card-num">Columna 2 · Conocimiento del mercado</div>
+      <div class="col-card-title">7 sectores priorizados</div>
+      <div class="col-card-body">Buyer personas definidos por producto. Insight claro por decisor.</div>
+      <div class="col-card-action">→ Segmentación por sector + cargo en LinkedIn. Keywords por intención en Google.</div>
+    </div>
+    <div class="col-card">
+      <div class="col-card-num">Columna 3 · Propuesta de valor</div>
+      <div class="col-card-title">"Hacer Para Saber"</div>
+      <div class="col-card-body">Diferencial claro. Promesa de resultados medibles vs. formación teórica.</div>
+      <div class="col-card-action">→ Eje sombrilla y ejes por producto. Mensajes orientados a ROI.</div>
+    </div>
+    <div class="col-card">
+      <div class="col-card-num">Columna 4 · Canales y medios</div>
+      <div class="col-card-title">LinkedIn + Google + Meta</div>
+      <div class="col-card-body">Branding y conversión. Meta exclusivo para branding. 6 meses activos.</div>
+      <div class="col-card-action">→ $500M distribuidos estratégicamente con picos en agosto y octubre.</div>
+    </div>
+    <div class="col-card">
+      <div class="col-card-num">Columna 5 · Generación de leads</div>
+      <div class="col-card-title">Bases ABM disponibles</div>
+      <div class="col-card-body">Bases de empresas afiliadas disponibles para ABM. Formularios nativos en LinkedIn.</div>
+      <div class="col-card-action">→ ABM con lista de afiliados. Formularios nativos LinkedIn + landing en Google.</div>
+    </div>
+    <div class="col-card warning">
+      <div class="col-card-num">⚠️ Columna 6 · Nutrición y seguimiento</div>
+      <div class="col-card-title">Mayor riesgo identificado</div>
+      <div class="col-card-body">Un lead B2B no contactado en 2 horas pierde el 80% de probabilidad de conversión.</div>
+      <div class="col-card-action">→ Flujo WhatsApp + email en menos de 10 minutos. CRM con tracking por producto.</div>
+    </div>
+    <div class="col-card warning">
+      <div class="col-card-num">⚠️ Columna 7 · Conversión a cliente</div>
+      <div class="col-card-title">Proceso comercial crítico</div>
+      <div class="col-card-body">El equipo comercial debe cerrar los leads de Propulsor y Escala. Sin proceso estructurado, la pauta no convierte.</div>
+      <div class="col-card-action">→ Script de cierre diferenciado por producto. Taller LinkedIn para equipo comercial.</div>
+    </div>
+    <div class="col-card">
+      <div class="col-card-num">Columna 8 · Fidelización</div>
+      <div class="col-card-title">Comunidad Empresarial</div>
+      <div class="col-card-body">Club Empresarial. Ecosistema de contenidos (podcast, masterclass, newsletter).</div>
+      <div class="col-card-action">→ Eje de testimonios activa casos de éxito reales. Upsell en ruta de crecimiento.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 PORTAFOLIO -->
+<section id="b2b-portafolio" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">03 — Portafolio B2B</div>
+      <div class="section-title">Productos y <span>Verticales</span></div>
+      <div class="section-subtitle">Seis soluciones organizadas en dos grupos según su objetivo de campaña: conversión de leads y construcción de marca.</div>
+    </div>
+  </div>
+
+  <div class="budget-bar-list">
+    <div class="budget-bar-item">
+      <div class="budget-bar-header">
+        <div class="budget-bar-name">🎯 Propulsor C-Level <span style="font-size:11px;color:var(--gray-400);font-weight:400">· CEO, CFO, COO, CHRO · Grandes empresas afiliadas</span></div>
+        <div class="budget-bar-amount">$150.000.000 <span class="badge-conversion">Conversión</span></div>
+      </div>
+      <div class="budget-bar-track"><div class="budget-bar-fill" style="width:30%"></div></div>
+      <div class="budget-bar-meta"><span class="budget-bar-pct">30% del total</span><span class="budget-bar-obj">70% LinkedIn + 30% Google · Meta: 1.579 leads</span></div>
+    </div>
+    <div class="budget-bar-item">
+      <div class="budget-bar-header">
+        <div class="budget-bar-name">🎯 Propulsor Empresas <span style="font-size:11px;color:var(--gray-400);font-weight:400">· Directores estratégicos · Medianas y grandes empresas</span></div>
+        <div class="budget-bar-amount">$100.000.000 <span class="badge-conversion">Conversión</span></div>
+      </div>
+      <div class="budget-bar-track"><div class="budget-bar-fill" style="width:20%"></div></div>
+      <div class="budget-bar-meta"><span class="budget-bar-pct">20% del total</span><span class="budget-bar-obj">30% Google + 70% LinkedIn · Meta: 1.053 leads</span></div>
+    </div>
+    <div class="budget-bar-item">
+      <div class="budget-bar-header">
+        <div class="budget-bar-name">🎯 Escala Empresarial <span style="font-size:11px;color:var(--gray-400);font-weight:400">· Gerentes de operaciones · PYMES y medianas</span></div>
+        <div class="budget-bar-amount">$35.000.000 <span class="badge-conversion">Conversión</span></div>
+      </div>
+      <div class="budget-bar-track"><div class="budget-bar-fill" style="width:7%"></div></div>
+      <div class="budget-bar-meta"><span class="budget-bar-pct">7% del total</span><span class="budget-bar-obj">30% Google + 70% LinkedIn · Meta: 369 leads</span></div>
+    </div>
+    <div class="budget-bar-item">
+      <div class="budget-bar-header">
+        <div class="budget-bar-name">📢 Educación Continua B2B <span style="font-size:11px;color:var(--gray-400);font-weight:400">· Gerentes RRHH, CHRO, HRBPs</span></div>
+        <div class="budget-bar-amount">$165.000.000 <span class="badge-branding">Branding</span></div>
+      </div>
+      <div class="budget-bar-track"><div class="budget-bar-fill" style="width:33%;background:#B07E00"></div></div>
+      <div class="budget-bar-meta"><span class="budget-bar-pct">33% del total</span><span class="budget-bar-obj">25% Google + 50% LinkedIn + 25% Meta · 13.4M+ impresiones</span></div>
+    </div>
+    <div class="budget-bar-item">
+      <div class="budget-bar-header">
+        <div class="budget-bar-name">📢 Laboratorio de Innovación <span style="font-size:11px;color:var(--gray-400);font-weight:400">· Directores de innovación</span></div>
+        <div class="budget-bar-amount">$25.000.000 <span class="badge-branding">Branding</span></div>
+      </div>
+      <div class="budget-bar-track"><div class="budget-bar-fill" style="width:5%;background:#B07E00"></div></div>
+      <div class="budget-bar-meta"><span class="budget-bar-pct">5% del total</span><span class="budget-bar-obj">25% Google + 50% LinkedIn + 25% Meta</span></div>
+    </div>
+    <div class="budget-bar-item">
+      <div class="budget-bar-header">
+        <div class="budget-bar-name">📢 POSIBLE — Agencia de Empleo <span style="font-size:11px;color:var(--gray-400);font-weight:400">· Gerentes admin., jefes de selección</span></div>
+        <div class="budget-bar-amount">$25.000.000 <span class="badge-branding">Branding</span></div>
+      </div>
+      <div class="budget-bar-track"><div class="budget-bar-fill" style="width:5%;background:#B07E00"></div></div>
+      <div class="budget-bar-meta"><span class="budget-bar-pct">5% del total</span><span class="budget-bar-obj">25% Google + 50% LinkedIn + 25% Meta</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 BUYER PERSONAS -->
+<section id="b2b-personas" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">04 — Buyer Personas</div>
+      <div class="section-title">Perfiles por <span>Producto</span></div>
+      <div class="section-subtitle">Cada producto responde a una necesidad distinta y a un perfil de decisor diferente. El mensaje desde el dolor específico aumenta la conversión.</div>
+    </div>
+  </div>
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-card-header">
+        <div class="persona-avatar">A</div>
+        <div><div class="persona-name">Andrés · CEO o Director General</div><div class="persona-role">BP 01 — Propulsor C-Level · 42–58 años</div></div>
+      </div>
+      <div class="persona-row"><div class="persona-row-label">Empresa</div><div class="persona-row-value">Grande o corporativo en Tecnología, Financiero o Manufactura. Afiliada a Compensar.</div></div>
+      <div class="persona-row"><div class="persona-row-label">Dónde está</div><div class="persona-row-value">LinkedIn (contenido estratégico) · Email · Google (programas ejecutivos)</div></div>
+      <div class="persona-row"><div class="persona-row-label">Dolor</div><div class="persona-row-value">Su empresa crece pero su equipo directivo no crece al mismo ritmo. Silos y visión estratégica que no baja a la organización.</div></div>
+      <div class="persona-insight">"No busco un curso. Busco un programa que transforme la manera en que mi equipo toma decisiones."</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-card-header">
+        <div class="persona-avatar">R</div>
+        <div><div class="persona-name">Ricardo · Director de Área o VP</div><div class="persona-role">BP 02 — Propulsor Empresas · 38–52 años</div></div>
+      </div>
+      <div class="persona-row"><div class="persona-row-label">Empresa</div><div class="persona-row-value">Mediana o grande en consolidación. Afiliada a Compensar.</div></div>
+      <div class="persona-row"><div class="persona-row-label">Dónde está</div><div class="persona-row-value">LinkedIn (gestión estratégica) · Google (formación de equipos directivos)</div></div>
+      <div class="persona-row"><div class="persona-row-label">Dolor</div><div class="persona-row-value">Sus directores están atrapados en lo urgente y no tienen metodología para pensar estratégicamente.</div></div>
+      <div class="persona-insight">"Mi equipo sabe hacer el trabajo. Lo que no sabe es cómo liderarlo hacia el siguiente nivel."</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-card-header">
+        <div class="persona-avatar">C</div>
+        <div><div class="persona-name">Carlos · Gerente de Operaciones</div><div class="persona-role">BP 03 — Escala Empresarial · 38–52 años</div></div>
+      </div>
+      <div class="persona-row"><div class="persona-row-label">Empresa</div><div class="persona-row-value">PYME o mediana manufacturera, logística o servicios.</div></div>
+      <div class="persona-row"><div class="persona-row-label">Dónde está</div><div class="persona-row-value">LinkedIn (grupos de industria) · Google (busca activamente soluciones de eficiencia)</div></div>
+      <div class="persona-row"><div class="persona-row-label">Dolor</div><div class="persona-row-value">Siente que los procesos están rotos pero no sabe exactamente dónde sin detener la operación.</div></div>
+      <div class="persona-insight">"Necesito resultados, no cursos. Si en 40 horas no veo mejora, no vale la pena."</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-card-header">
+        <div class="persona-avatar">L</div>
+        <div><div class="persona-name">Laura · Gerente de Talento Humano</div><div class="persona-role">BP 04 — Educación Continua B2B · 30–45 años</div></div>
+      </div>
+      <div class="persona-row"><div class="persona-row-label">Empresa</div><div class="persona-row-value">PYME o mediana en cualquier sector. Mayor concentración en Servicios y Comercial.</div></div>
+      <div class="persona-row"><div class="persona-row-label">Dónde está</div><div class="persona-row-value">LinkedIn (gestión de personas, DEI) · Meta (grupos de RRHH) · Email corporativo</div></div>
+      <div class="persona-row"><div class="persona-row-label">Dolor</div><div class="persona-row-value">Rotación alta, brechas de competencias. La gerencia exige resultados de desarrollo con presupuesto limitado.</div></div>
+      <div class="persona-insight">"Necesito un aliado educativo que entienda mi empresa, no un catálogo de cursos que no le importa a nadie."</div>
+    </div>
+    <div class="persona-card" style="grid-column: span 2;">
+      <div class="persona-card-header">
+        <div class="persona-avatar">M</div>
+        <div><div class="persona-name">Marcela · Directora Administrativa o Gerente de RRHH PYME</div><div class="persona-role">BP 05 — POSIBLE — Agencia de Empleo · 30–48 años</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+        <div>
+          <div class="persona-row"><div class="persona-row-label">Empresa</div><div class="persona-row-value">PYME en crecimiento en Servicios, Comercial o Logística. Afiliada o no afiliada.</div></div>
+          <div class="persona-row"><div class="persona-row-label">Dónde está</div><div class="persona-row-value">Meta (Facebook, grupos de emprendedores) · WhatsApp Business · Google · Email</div></div>
+        </div>
+        <div>
+          <div class="persona-row"><div class="persona-row-label">Dolor</div><div class="persona-row-value">No encuentra el talento que necesita, o cuando lo encuentra es costoso y tarda meses. La rotación le está comiendo el presupuesto.</div></div>
+        </div>
+      </div>
+      <div class="persona-insight">"Llevo 3 meses buscando a alguien para ventas y no encuentro a nadie que sirva. Necesito talento ya."</div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 EJES DE COMUNICACIÓN -->
+<section id="b2b-ejes" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">05 — Ejes de Comunicación</div>
+      <div class="section-title">Mensajes que <span>Convierten</span></div>
+      <div class="section-subtitle">Construidos desde "Hacer Para Saber" y articulados con los dolores específicos de cada perfil empresarial.</div>
+    </div>
+  </div>
+
+  <div class="eje-sombrilla">
+    <div class="eje-sombrilla-label">Eje Sombrilla</div>
+    <div class="eje-sombrilla-title">Tu empresa ya sabe lo que necesita. Nosotros lo hacemos posible.</div>
+    <div class="eje-sombrilla-sub">Tono: Consultivo · Estratégico · Empoderador · Orientado a resultados. El eje central parte de una verdad que todo decisor empresarial reconoce: saben cuáles son sus problemas, pero no siempre tienen el aliado ni la metodología para resolverlos.</div>
+    <div class="eje-quotes">
+      <div class="eje-quote">"Aprender haciendo no es un método. Es la única forma en que las empresas realmente cambian."</div>
+      <div class="eje-quote">"No somos una universidad más. Somos el aliado que tu empresa necesita para crecer de verdad."</div>
+      <div class="eje-quote">"El talento que transformará tu empresa ya trabaja contigo. Solo necesita el espacio para hacerlo."</div>
+    </div>
+  </div>
+
+  <div class="eje-grid">
+    <div class="eje-card">
+      <div class="eje-card-num">Eje 01 — Propulsor</div>
+      <div class="eje-card-title">El programa que eleva a quienes ya están en la cima.</div>
+      <div class="eje-card-tono">Exclusivo · Estratégico · Aspiracional · Peer-to-peer</div>
+      <div class="eje-card-quotes">
+        <div class="eje-card-quote">"Propulsor es el programa para líderes que ya llegaron arriba y saben que el siguiente nivel exige más."</div>
+        <div class="eje-card-quote">"No es un MBA. Es la formación que los MBA no dan. Casos reales, retos reales, decisiones reales."</div>
+        <div class="eje-card-quote">"Los mejores líderes aprenden de otros líderes. Propulsor te conecta con el ecosistema que acelera tu visión."</div>
+      </div>
+    </div>
+    <div class="eje-card">
+      <div class="eje-card-num">Eje 02 — Escala Empresarial</div>
+      <div class="eje-card-title">Resultados en semanas, no en meses.</div>
+      <div class="eje-card-tono">Directo · Concreto · Orientado a ROI · Urgente</div>
+      <div class="eje-card-quotes">
+        <div class="eje-card-quote">"En 8 horas identificamos los cuellos de botella que están frenando tu empresa. Y te damos el plan para eliminarlos."</div>
+        <div class="eje-card-quote">"+12% de productividad. No es promesa — es el resultado de nuestras intervenciones."</div>
+        <div class="eje-card-quote">"Intervenimos en tu empresa sin frenar tu negocio. Porque sabemos que el tiempo de tu equipo vale."</div>
+      </div>
+    </div>
+    <div class="eje-card">
+      <div class="eje-card-num">Eje 03 — Educación Continua B2B</div>
+      <div class="eje-card-title">Formación que se diseña para tu empresa, no al revés.</div>
+      <div class="eje-card-tono">Empático · Consultivo · Colaborativo · Confiable</div>
+      <div class="eje-card-quotes">
+        <div class="eje-card-quote">"Antes de proponer, preguntamos. Porque la formación que transforma parte de entender tu negocio."</div>
+        <div class="eje-card-quote">"Tus colaboradores merecen formación que les sirva para lo que hacen mañana."</div>
+        <div class="eje-card-quote">"Las empresas que forman bien retienen más. Y U.Compensar sabe cómo hacerlo."</div>
+      </div>
+    </div>
+    <div class="eje-card">
+      <div class="eje-card-num">Eje 04 — POSIBLE</div>
+      <div class="eje-card-title">El talento que tu empresa necesita ya existe. Nosotros te lo conectamos.</div>
+      <div class="eje-card-tono">Práctico · Ágil · Confiable · Humano</div>
+      <div class="eje-card-quotes">
+        <div class="eje-card-quote">"Deja de buscar. Empieza a contratar. Conectamos tu empresa con talento listo para trabajar."</div>
+        <div class="eje-card-quote">"No es talento cualquiera — es talento preparado con metodología real para lo que tu empresa exige."</div>
+        <div class="eje-card-quote">"En una PYME, cada semana sin el perfil correcto es plata que se va. POSIBLE lo resuelve."</div>
+      </div>
+    </div>
+    <div class="eje-card" style="grid-column:span 2;">
+      <div class="eje-card-num">Eje 05 — Testimonios</div>
+      <div class="eje-card-title">La prueba más poderosa es la que viene de quien ya lo vivió.</div>
+      <div class="eje-card-tono">Auténtico · Cercano · Inspirador · Verificable · ⚠️ Pendiente de producción con el cliente</div>
+      <div class="eje-card-quotes">
+        <div class="eje-card-quote">Los testimonios son el eje de mayor conversión en B2B. Un decisor empresarial confía más en la experiencia de un par que en cualquier promesa de marca. Se requiere producción de al menos 3 casos de éxito reales para activar este eje en la segunda fase de la campaña.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 PRESUPUESTO -->
+<section id="b2b-presupuesto" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">06 — Presupuesto e Inversión</div>
+      <div class="section-title">Distribución de <span>$500M</span></div>
+      <div class="section-subtitle">Doble lógica: conversión concentra LinkedIn y Google; branding activa los tres canales para maximizar alcance y posicionamiento.</div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-card-label">LinkedIn Ads</div>
+      <div class="kpi-card-value yellow">$200M</div>
+      <div class="kpi-card-sub">40% · Branding + Conversión · Todos los productos</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card-label">Google Ads</div>
+      <div class="kpi-card-value">$175M</div>
+      <div class="kpi-card-sub">35% · Branding + Conversión · Todos los productos</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card-label">Meta Ads</div>
+      <div class="kpi-card-value">$125M</div>
+      <div class="kpi-card-sub">25% · Solo Branding · Ed. Continua, Lab, POSIBLE</div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="section-number" style="margin-bottom:16px;">KPIs de Conversión (Propulsor + Escala)</div>
+    <div class="b2b-table-wrap">
+      <table class="b2b-table">
+        <thead><tr><th>Producto</th><th>Inversión</th><th>CPA/CPL</th><th>Leads estimados</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Propulsor C-Level</strong></td><td>$150.000.000</td><td>$100k LinkedIn / $85k Google</td><td><strong>1.579 leads</strong></td></tr>
+          <tr><td><strong>Propulsor Empresas</strong></td><td>$100.000.000</td><td>$100k LinkedIn / $85k Google</td><td><strong>1.053 leads</strong></td></tr>
+          <tr><td><strong>Escala Empresarial</strong></td><td>$35.000.000</td><td>$100k LinkedIn / $85k Google</td><td><strong>369 leads</strong></td></tr>
+          <tr class="total-row"><td><strong>TOTAL LEADS</strong></td><td><strong>$285.000.000</strong></td><td><strong>CPL prom. ~$94.900</strong></td><td><strong>3.001 leads</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="section-number" style="margin-bottom:16px;">KPIs de Branding — Impresiones estimadas</div>
+    <div class="b2b-table-wrap">
+      <table class="b2b-table">
+        <thead><tr><th>Producto / Canal</th><th>Inversión</th><th>% Canal</th><th>CPM est.</th><th>Impresiones</th><th>Objetivo</th></tr></thead>
+        <tbody>
+          <tr><td>Educación Continua — Google</td><td>$41.250.000</td><td>25%</td><td>$10.000</td><td>4.125.000</td><td>Demand Gen</td></tr>
+          <tr><td>Educación Continua — LinkedIn</td><td>$82.500.000</td><td>50%</td><td>$30.000</td><td>2.750.000</td><td>Sponsored Content</td></tr>
+          <tr><td>Educación Continua — Meta</td><td>$41.250.000</td><td>25%</td><td>$12.000</td><td>3.437.500</td><td>Alcance / Tráfico</td></tr>
+          <tr><td>Lab Innovación — Google</td><td>$6.250.000</td><td>25%</td><td>$10.000</td><td>625.000</td><td>Demand Gen</td></tr>
+          <tr><td>Lab Innovación — LinkedIn</td><td>$12.500.000</td><td>50%</td><td>$30.000</td><td>416.667</td><td>Sponsored Content</td></tr>
+          <tr><td>Lab Innovación — Meta</td><td>$6.250.000</td><td>25%</td><td>$12.000</td><td>520.833</td><td>Alcance / Tráfico</td></tr>
+          <tr><td>POSIBLE — Google</td><td>$6.250.000</td><td>25%</td><td>$10.000</td><td>625.000</td><td>Demand Gen</td></tr>
+          <tr><td>POSIBLE — LinkedIn</td><td>$12.500.000</td><td>50%</td><td>$30.000</td><td>416.667</td><td>Sponsored Content</td></tr>
+          <tr><td>POSIBLE — Meta</td><td>$6.250.000</td><td>25%</td><td>$12.000</td><td>520.833</td><td>Alcance / Tráfico</td></tr>
+          <tr class="total-row"><td colspan="4"><strong>TOTAL IMPRESIONES BRANDING</strong></td><td><strong>13.437.500</strong></td><td><strong>$215.000.000</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 07 ESTRATEGIA POR CANAL -->
+<section id="b2b-canales" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">07 — Estrategia por Canal</div>
+      <div class="section-title">Tres canales, <span>un ecosistema</span></div>
+      <div class="section-subtitle">LinkedIn y Google actúan en branding y conversión simultáneamente. Meta opera exclusivamente en branding para los productos de posicionamiento.</div>
+    </div>
+  </div>
+
+  <div class="canal-grid">
+    <div class="canal-card">
+      <div class="canal-card-logo">🔵 LinkedIn Ads</div>
+      <div class="canal-card-role">Canal prioritario de conversión B2B. CPA mayor ($100k) pero calidad de lead superior.</div>
+      <div class="canal-card-list">
+        <div class="canal-item">Segmentación por cargo: CEO, CFO, COO, CHRO, Director de RRHH, Gerente de Operaciones, Director de Innovación</div>
+        <div class="canal-item">Segmentación por empresa: Tamaño (PYME/Mediana/Grande) + Sector (Tecnología, Financiero, Servicios, Logística, Manufactura)</div>
+        <div class="canal-item">ABM: Subir base de datos de empresas afiliadas a Compensar para personalizar mensajes con nombre de empresa</div>
+        <div class="canal-item">Formatos conversión: Formularios nativos Lead Gen + InMail Sponsored para Propulsor y Escala</div>
+        <div class="canal-item">Formatos branding: Sponsored Content + Document Ads para Educación Continua, Lab Innovación y POSIBLE</div>
+      </div>
+    </div>
+    <div class="canal-card">
+      <div class="canal-card-logo">🟢 Google Ads</div>
+      <div class="canal-card-role">Captación de demanda activa + Demand Gen. Captura decisores con alta intención de búsqueda.</div>
+      <div class="canal-card-list">
+        <div class="canal-item">Propulsor C-Level: "programa formación ejecutiva C-Level Colombia", "liderazgo ejecutivo Bogotá", "formación directivos empresas"</div>
+        <div class="canal-item">Propulsor Empresas: "formación equipos directivos Colombia", "desarrollo liderazgo corporativo", "capacitación gerencial"</div>
+        <div class="canal-item">Escala Empresarial: "consultoría productividad empresas Bogotá", "diagnóstico empresarial Colombia", "intervención mejora procesos"</div>
+        <div class="canal-item">Educación Continua: "formación corporativa a la medida Bogotá", "programas capacitación empresas Colombia"</div>
+        <div class="canal-item">POSIBLE: "agencia de empleo Bogotá PYMES", "contratar talento formado Colombia"</div>
+      </div>
+    </div>
+    <div class="canal-card">
+      <div class="canal-card-logo">🔵 Meta Ads</div>
+      <div class="canal-card-role">Solo branding. Amplifica el alcance de Educación Continua, Lab Innovación y POSIBLE.</div>
+      <div class="canal-card-list">
+        <div class="canal-item">Facebook: Alcance en grupos de PYMES, emprendedores y gestores de personas. Carrusel y video</div>
+        <div class="canal-item">Instagram: Perfiles jóvenes de RRHH e innovación. Contenido aspiracional y testimonial</div>
+        <div class="canal-item">Remarketing: Reconectar con visitantes del sitio web de U.Compensar que no convirtieron</div>
+        <div class="canal-item">Meta NO opera en conversión B2B en esta estrategia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 FLOW DE MEDIOS -->
+<section id="b2b-flow" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">08 — Flow de Medios</div>
+      <div class="section-title">Julio — <span>Diciembre 2026</span></div>
+      <div class="section-subtitle">Dos picos de mayor concentración: agosto (regreso empresarial, planeación Q3) y octubre (cierre de presupuestos corporativos para 2027).</div>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="margin-bottom:24px;">
+    <div class="kpi-card"><div class="kpi-card-label">Julio 12%</div><div class="kpi-card-value">$62M</div><div class="kpi-card-sub">Arranque moderado. Prospección suave y construcción de audiencias.</div></div>
+    <div class="kpi-card" style="border-color:var(--yellow);"><div class="kpi-card-label">🔥 Agosto 22%</div><div class="kpi-card-value yellow">$108M</div><div class="kpi-card-sub">PICO 1. Regreso total de operaciones. Mayor receptividad a propuestas.</div></div>
+    <div class="kpi-card"><div class="kpi-card-label">Septiembre 18%</div><div class="kpi-card-value">$88M</div><div class="kpi-card-sub">Sostenimiento alto. Foco en cierre de leads calientes de agosto.</div></div>
+  </div>
+  <div class="kpi-grid" style="margin-bottom:32px;">
+    <div class="kpi-card" style="border-color:var(--yellow);"><div class="kpi-card-label">🔥 Octubre 22%</div><div class="kpi-card-value yellow">$108M</div><div class="kpi-card-sub">PICO 2. Cierre de presupuestos para 2027. Mayor urgencia del año.</div></div>
+    <div class="kpi-card"><div class="kpi-card-label">Noviembre 16%</div><div class="kpi-card-value">$81M</div><div class="kpi-card-sub">Cierre fuerte. Nurturing de leads que no cerraron en octubre.</div></div>
+    <div class="kpi-card"><div class="kpi-card-label">Diciembre 10%</div><div class="kpi-card-value">$51M</div><div class="kpi-card-sub">Desaceleración. Mantenimiento y branding institucional.</div></div>
+  </div>
+
+  <div class="b2b-flow-table-wrap">
+    <table class="b2b-flow-table">
+      <thead><tr><th>Producto</th><th>Canal</th><th>Jul</th><th>Ago 🔥</th><th>Sep</th><th>Oct 🔥</th><th>Nov</th><th>Dic</th><th>Total</th></tr></thead>
+      <tbody>
+        <tr><td colspan="9" style="background:#F8F8F8;font-size:11px;font-weight:700;color:var(--black);padding:8px 14px;">🎯 CONVERSIÓN — Propulsor C-Level + Propulsor Empresas + Escala Empresarial</td></tr>
+        <tr class="pico"><td><strong>Propulsor C-Level</strong></td><td>LinkedIn (70%)</td><td>$13M</td><td>$23M</td><td>$19M</td><td>$23M</td><td>$17M</td><td>$11M</td><td class="td-monto">$106M</td></tr>
+        <tr><td><strong>Propulsor C-Level</strong></td><td>Google (30%)</td><td>$5M</td><td>$10M</td><td>$8M</td><td>$10M</td><td>$7M</td><td>$5M</td><td class="td-monto">$45M</td></tr>
+        <tr class="pico"><td><strong>Propulsor Empresas</strong></td><td>LinkedIn (70%)</td><td>$8M</td><td>$15M</td><td>$13M</td><td>$15M</td><td>$11M</td><td>$7M</td><td class="td-monto">$69M</td></tr>
+        <tr><td><strong>Propulsor Empresas</strong></td><td>Google (30%)</td><td>$4M</td><td>$7M</td><td>$5M</td><td>$7M</td><td>$5M</td><td>$3M</td><td class="td-monto">$31M</td></tr>
+        <tr class="pico"><td><strong>Escala Empresarial</strong></td><td>LinkedIn (70%)</td><td>$3M</td><td>$5M</td><td>$4M</td><td>$5M</td><td>$4M</td><td>$2M</td><td class="td-monto">$23M</td></tr>
+        <tr><td><strong>Escala Empresarial</strong></td><td>Google (30%)</td><td>$1M</td><td>$2M</td><td>$2M</td><td>$2M</td><td>$2M</td><td>$1M</td><td class="td-monto">$10M</td></tr>
+        <tr><td colspan="9" style="background:#F8F8F8;font-size:11px;font-weight:700;color:var(--black);padding:8px 14px;">📢 BRANDING — Educación Continua B2B + Lab Innovación + POSIBLE</td></tr>
+        <tr class="pico"><td><strong>Ed. Continua B2B</strong></td><td>LinkedIn (50%)</td><td>$10M</td><td>$18M</td><td>$15M</td><td>$18M</td><td>$13M</td><td>$8M</td><td class="td-monto">$82M</td></tr>
+        <tr><td><strong>Ed. Continua B2B</strong></td><td>Google (25%)</td><td>$5M</td><td>$9M</td><td>$7M</td><td>$9M</td><td>$7M</td><td>$4M</td><td class="td-monto">$41M</td></tr>
+        <tr><td><strong>Ed. Continua B2B</strong></td><td>Meta (25%)</td><td>$5M</td><td>$9M</td><td>$7M</td><td>$9M</td><td>$7M</td><td>$4M</td><td class="td-monto">$41M</td></tr>
+        <tr class="pico"><td><strong>Lab Innovación</strong></td><td>LinkedIn (50%)</td><td>$2M</td><td>$3M</td><td>$2M</td><td>$3M</td><td>$2M</td><td>$1M</td><td class="td-monto">$13M</td></tr>
+        <tr><td><strong>Lab Innovación</strong></td><td>Google (25%)</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td class="td-monto">$6M</td></tr>
+        <tr><td><strong>Lab Innovación</strong></td><td>Meta (25%)</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td class="td-monto">$6M</td></tr>
+        <tr class="pico"><td><strong>POSIBLE</strong></td><td>LinkedIn (50%)</td><td>$2M</td><td>$3M</td><td>$2M</td><td>$3M</td><td>$2M</td><td>$1M</td><td class="td-monto">$13M</td></tr>
+        <tr><td><strong>POSIBLE</strong></td><td>Google (25%)</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td class="td-monto">$6M</td></tr>
+        <tr><td><strong>POSIBLE</strong></td><td>Meta (25%)</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td>$1M</td><td class="td-monto">$6M</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>INVERSIÓN TOTAL MES</strong></td><td><strong>$62M</strong></td><td><strong>$108M</strong></td><td><strong>$88M</strong></td><td><strong>$108M</strong></td><td><strong>$81M</strong></td><td><strong>$51M</strong></td><td><strong>$500M</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-block" style="margin-top:16px;font-size:12px;">Los picos de agosto y octubre concentran el <strong>44% de la inversión total</strong>, alineados con los momentos de mayor toma de decisiones en empresas colombianas. Valores redondeados al millón más cercano por canal.</div>
+</section>
+
+<!-- 09 FLUJO POST-LEAD -->
+<section id="b2b-postlead" class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-number">09 — Flujo de Contacto Post-Lead</div>
+      <div class="section-title">Velocidad que <span>convierte</span></div>
+      <div class="section-subtitle">Un lead no contactado en las primeras 2 horas tiene una probabilidad de conversión 5 a 10 veces menor. La pauta trae el lead; el proceso comercial lo convierte.</div>
+    </div>
+  </div>
+
+  <div class="postlead-grid">
+    <div class="postlead-step">
+      <div class="postlead-step-num">1</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">Lead entra al CRM</div>
+        <div class="postlead-step-desc">Sistema automatizado registra el lead con tag de producto, canal de origen y etapa del flujo.</div>
+      </div>
+      <div class="postlead-step-timing">Inmediato</div>
+    </div>
+    <div class="postlead-step">
+      <div class="postlead-step-num">2</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">WhatsApp automático humanizado</div>
+        <div class="postlead-step-desc">ManyChat / bot — presentación de U.Compensar y el producto de interés. Primer punto de contacto siempre por WhatsApp.</div>
+        <div class="postlead-step-meta">El decisor empresarial no contesta números desconocidos.</div>
+      </div>
+      <div class="postlead-step-timing">&lt; 10 minutos</div>
+    </div>
+    <div class="postlead-step">
+      <div class="postlead-step-num">3</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">Si responde → asesor toma la conversación</div>
+        <div class="postlead-step-desc">Asesor comercial especializado por producto (Propulsor o Escala). El mensaje genérico destruye la conversión.</div>
+      </div>
+      <div class="postlead-step-timing">Inmediato al responder</div>
+    </div>
+    <div class="postlead-step">
+      <div class="postlead-step-num">4</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">Si no responde → mensaje con ángulo diferente</div>
+        <div class="postlead-step-desc">WhatsApp — ángulo de caso de éxito o beneficio específico del producto.</div>
+      </div>
+      <div class="postlead-step-timing">Día 2</div>
+    </div>
+    <div class="postlead-step">
+      <div class="postlead-step-num">5</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">Mensaje con contenido útil</div>
+        <div class="postlead-step-desc">WhatsApp — fechas, metodología, próxima cohorte o cupo disponible.</div>
+      </div>
+      <div class="postlead-step-timing">Día 3</div>
+    </div>
+    <div class="postlead-step">
+      <div class="postlead-step-num">6</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">Llamada telefónica</div>
+        <div class="postlead-step-desc">Asesor comercial — primera llamada de calificación. Script diferenciado por producto.</div>
+      </div>
+      <div class="postlead-step-timing">Día 4</div>
+    </div>
+    <div class="postlead-step">
+      <div class="postlead-step-num">7</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">WhatsApp recordatorio de llamada</div>
+        <div class="postlead-step-desc">Bot / asesor — recordatorio con CTA de reagendamiento.</div>
+      </div>
+      <div class="postlead-step-timing">Día 4 (tarde)</div>
+    </div>
+    <div class="postlead-step">
+      <div class="postlead-step-num">8</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">Secuencia de email</div>
+        <div class="postlead-step-desc">Email marketing — caso de éxito + propuesta de valor + CTA.</div>
+      </div>
+      <div class="postlead-step-timing">Día 5</div>
+    </div>
+    <div class="postlead-step" style="border-left:3px solid var(--yellow);">
+      <div class="postlead-step-num" style="background:var(--yellow);color:var(--black);">9</div>
+      <div class="postlead-step-body">
+        <div class="postlead-step-title">Lead frío → nutrición hasta próximo ciclo</div>
+        <div class="postlead-step-desc">Secuencia mensual de contenido de valor hasta que se reactive o indique no interés. Un lead B2B frío no es un lead perdido — entra a nutrición y se reactiva en el próximo ciclo.</div>
+      </div>
+      <div class="postlead-step-timing">Mensual</div>
+    </div>
+  </div>
+
+  <div class="text-block" style="margin-top:24px;background:var(--black);border-color:transparent;color:rgba(255,255,255,.7);">
+    <strong style="color:var(--yellow);">Notas críticas del flujo:</strong><br><br>
+    El primer contacto debe ser siempre por <strong style="color:var(--white);">WhatsApp en los primeros 10 minutos</strong> — es el factor con mayor impacto en la tasa de conversión B2B. El asesor debe conocer el producto específico por el que llegó el lead. El CRM debe tener tags por producto, canal de origen y etapa del flujo para medir la efectividad de cada paso.
+  </div>
+
+  <div style="text-align:center;padding:40px 0 20px;border-top:1px solid var(--gray-200);margin-top:40px;">
+    <div style="font-size:12px;color:var(--gray-400);margin-bottom:4px;">Juntos transformamos retos en oportunidades.</div>
+    <div style="font-size:14px;font-weight:700;color:var(--black);">ADCOM · Agencia Digital · adcom.group</div>
+  </div>
+</section>
+
 </main>
 
 <script>
